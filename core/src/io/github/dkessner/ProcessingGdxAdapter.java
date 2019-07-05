@@ -24,7 +24,7 @@ public class ProcessingGdxAdapter extends ApplicationAdapter
     @Override
     public void create() 
     {
-        papplet = new PApplet();
+        papplet = new Bounce();
         papplet.create();
     }
 

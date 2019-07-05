@@ -21,52 +21,78 @@ import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.*;
 
 public class PApplet
 {
-    public void create()
+    public class PImage extends Texture 
+    {
+        public PImage(String filename) 
+        {
+            super(filename); 
+            width = getWidth();
+            height = getHeight();
+        }
+
+        @Override
+        public void finalize() {super.dispose();}
+
+        public int width;
+        public int height;
+    }
+
+    public void size(int width, int height)
     {
         Gdx.graphics.setWindowedMode(width, height);
         camera = new OrthographicCamera(width, height);
+        this.width = width;
+        this.height = height;
+    }
+
+    public void create()
+    {
+        setup(); // note: this must be first?
 
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
-        img = new Texture("badlogic.jpg");
     }
 
-    public void setup()
-    {
+    public void setup() {}
 
+    public void image(PImage img, int x, int y)
+    {
+        batch.begin();
+        batch.draw(img, x, y);
+        batch.end();
+    }
+
+    public void background(int r, int g, int b, int a)
+    {
+        Gdx.gl.glClearColor(r/255f, g/255f, b/255f, a/255f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
+
+    public void background(int r, int g, int b) {background(r, g, b, 255);}
+    public void background(int n) {background(n, n, n, 255);}
+
+    public void fill(int r, int g, int b, int a)
+    {
+        shapeRenderer.setColor(r/255f, g/255f, b/255f, 1);
+    }
+
+    public void fill(int r, int g, int b) {fill(r, g, b, 255);}
+    public void fill(int n) {fill(n, n, n, 255);}
+
+    public void ellipse(float x, float y, float width, float height)
+    {
+        shapeRenderer.begin(ShapeType.Filled);
+        shapeRenderer.ellipse(x-width/2, y-height/2, width, height); // ellipse draw by corner?
+        //shapeRenderer.circle(x, y, width/2);
+        shapeRenderer.end();
     }
 
     public void render()
     {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        batch.begin();
-        batch.draw(img, imgX, imgY);
-        batch.end();
-
-        shapeRenderer.setColor(0, 1, 0, 1);
-        shapeRenderer.begin(ShapeType.Filled);
-        shapeRenderer.circle(x, y, r);
-        shapeRenderer.end();
-
-        x += vx;
-        y += vy;
-
-        if (x<r || x>width-r) vx *= -1;
-        if (y<r || y>height-r) vy *= -1;
-
-        imgX += imgVx;
-        imgY += imgVy;
-
-        if (imgX<0 || imgX>width-img.getWidth()) imgVx *= -1;
-        if (imgY<0 || imgY>height-img.getHeight()) imgVy *= -1;
+        draw();
     }
 
-    public void draw()
-    {
-
-    }
+    public void draw() {}
 
     public void resize(int width, int height)
     {
@@ -77,27 +103,14 @@ public class PApplet
     public void dispose() 
     {
         batch.dispose();
-        img.dispose();
     }
 
     private OrthographicCamera camera;
     private ShapeRenderer shapeRenderer;
     private SpriteBatch batch;
-    private Texture img;
 
-    private int width = 800;
-    private int height = 600;
-
-    private int r = 25;
-    private int x = width/2;
-    private int y = height/2;
-    private int vx = 2;
-    private int vy = 3;
-
-    private int imgX = 0;
-    private int imgY = 0;
-    private int imgVx = 3;
-    private int imgVy = 2;
+    protected int width = 400;
+    protected int height = 400;
 }
 
 
