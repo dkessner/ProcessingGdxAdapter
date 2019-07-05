@@ -1,4 +1,6 @@
 ./core/src/io/github/dkessner/ProcessingGdxAdapter.java
+./core/src/io/github/dkessner/Bounce.java
+./core/src/io/github/dkessner/PApplet.java
 ./desktop/src/io/github/dkessner/desktop/DesktopLauncher.java
 ./html/src/io/github/dkessner/client/HtmlLauncher.java
 ./android/src/io/github/dkessner/AndroidLauncher.java
