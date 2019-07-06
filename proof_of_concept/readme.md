@@ -11,13 +11,14 @@ $ gradlew desktop:run
 
 ## Run web app 
 
-[http://localhost:8080/index.html](http://localhost:8080/index.html)
-
 ```
 $ gradlew html:clean
 $ gradlew html:build
 $ gradlew html:superDev
 ```
+
+Web app served here:
+[http://localhost:8080/index.html](http://localhost:8080/index.html)
 
 
 ## Notes
