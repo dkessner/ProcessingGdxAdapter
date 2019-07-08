@@ -1,0 +1,7 @@
+./core/src/io/github/dkessner/ProcessingGdxAdapter.java
+./core/src/io/github/dkessner/Bounce.java
+./desktop/src/io/github/dkessner/desktop/DesktopLauncher.java
+./html/src/io/github/dkessner/client/HtmlLauncher.java
+./android/src/io/github/dkessner/AndroidLauncher.java
+./ios-moe/src/io/github/dkessner/IOSMoeLauncher.java
+./ios/src/io/github/dkessner/IOSLauncher.java
