@@ -1,0 +1,4 @@
+./build.gradle
+./core/src/ProcessingGdxAdapter.gwt.xml
+./html/src/io/github/dkessner/GdxDefinitionSuperdev.gwt.xml
+./html/src/io/github/dkessner/GdxDefinition.gwt.xml
