@@ -41,8 +41,10 @@ project(":html") {
  
 _<project_name>_`/html/src/io/github/dkessner/GdxDefinition.gwt.xml`:
 ```
+    <module>
         <inherits name='ProcessingGdx' />
         <source path="processing/core" />
+    </module>
 ```
 
 
