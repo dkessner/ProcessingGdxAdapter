@@ -4,6 +4,8 @@
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 
 	<inherits name='ProcessingGDXAdapter' />
+        <inherits name='ProcessingGdx' />
+        <source path="processing/core" />
 	<entry-point class='io.github.dkessner.client.HtmlLauncher' />
 	<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>
 	<set-configuration-property name="gdx.assetpath" value="../android/assets" />

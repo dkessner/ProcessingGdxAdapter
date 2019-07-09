@@ -119,6 +119,7 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
+        implementation files('../../ProcessingGdx/build/libs/ProcessingGdx-0.1.0.jar')
     }
 }
 

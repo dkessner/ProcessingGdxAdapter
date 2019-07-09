@@ -39,6 +39,8 @@ jar {
         attributes('Implementation-Title': project.name,
                    'Implementation-Version': project.version)
     }
+
+    from sourceSets.main.allSource
 }
 
 
