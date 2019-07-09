@@ -3,6 +3,9 @@ This is the Bounce program as a project depending on the ProcessingGdx library.
 
 ## Notes on html build
 
+Main issue: the GWT compiler needs java source.
+
+
 ### library needs to include source in jar file
 
 `ProcessingGdx/build.gradle`:
