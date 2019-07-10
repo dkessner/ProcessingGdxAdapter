@@ -20,6 +20,52 @@ import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.*;
 
 public class PApplet
 {
+    public PApplet()
+    {
+    }
+
+    // communication with gdx.ApplicationAdapter
+
+    public void create()
+    {
+        // window initialization
+
+        settings();
+
+        // PApplet initialization
+
+        shapeRenderer = new ShapeRenderer();
+        batch = new SpriteBatch();
+
+        // sketch initializaton
+
+        setup();
+    }
+
+    public void render()
+    {
+        draw();
+    }
+
+    public void resize(int width, int height)
+    {
+        this.width = width;
+        this.height = height;
+    }
+
+    public void dispose() 
+    {
+        batch.dispose();
+    }
+
+    // PApplet methods to be overridden by Processing sketches
+
+    public void settings() {}
+    public void setup() {}
+    public void draw() {}
+
+    // TODO: move PImage out
+
     public class PImage extends Texture 
     {
         public PImage(String filename) 
@@ -36,6 +82,8 @@ public class PApplet
         public int height;
     }
 
+    // PGraphics API
+
     public void size(int width, int height)
     {
         Gdx.graphics.setWindowedMode(width, height);
@@ -43,16 +91,6 @@ public class PApplet
         this.width = width;
         this.height = height;
     }
-
-    public void create()
-    {
-        setup(); // note: this must be first?
-
-        shapeRenderer = new ShapeRenderer();
-        batch = new SpriteBatch();
-    }
-
-    public void setup() {}
 
     public PImage loadImage(String filename)
     {
@@ -91,23 +129,7 @@ public class PApplet
         shapeRenderer.end();
     }
 
-    public void render()
-    {
-        draw();
-    }
-
-    public void draw() {}
-
-    public void resize(int width, int height)
-    {
-        this.width = width;
-        this.height = height;
-    }
-
-    public void dispose() 
-    {
-        batch.dispose();
-    }
+    // private variables
 
     private OrthographicCamera camera;
     private ShapeRenderer shapeRenderer;

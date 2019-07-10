@@ -14,10 +14,13 @@ import processing.core.*;
 public class Bounce extends PApplet
 {
     @Override
-    public void setup()
+    public void settings()
     {
         size(800, 400);
-
+    }
+    @Override
+    public void setup()
+    {
         img = loadImage("badlogic.jpg");
 
         x = width/2;
