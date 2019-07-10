@@ -54,6 +54,11 @@ public class PApplet
 
     public void setup() {}
 
+    public PImage loadImage(String filename)
+    {
+        return new PImage(filename);
+    }
+
     public void image(PImage img, int x, int y)
     {
         batch.begin();

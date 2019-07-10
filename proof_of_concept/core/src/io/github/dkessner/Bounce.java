@@ -18,7 +18,7 @@ public class Bounce extends PApplet
     {
         size(800, 400);
 
-        img = new PImage("badlogic.jpg");
+        img = loadImage("badlogic.jpg");
 
         x = width/2;
         y = height/2;
