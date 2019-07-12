@@ -14,10 +14,14 @@ import processing.core.*;
 public class DrawingTest extends PApplet
 {
     @Override
-    public void setup()
+    public void settings()
     {
         size(800, 400);
+    }
 
+    @Override
+    public void setup()
+    {
         img = new PImage("badlogic.jpg");
 
         x = width/2;
@@ -31,7 +35,7 @@ public class DrawingTest extends PApplet
 
         image(img, imgX, imgY);
 
-        fill(0, 0, 255);
+        fill(0, 255, 0);
 
         ellipse(x, y, 2*r, 2*r);
 

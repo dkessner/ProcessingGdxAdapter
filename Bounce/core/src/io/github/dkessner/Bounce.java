@@ -18,6 +18,7 @@ public class Bounce extends PApplet
     {
         size(800, 400);
     }
+
     @Override
     public void setup()
     {

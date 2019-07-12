@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+# runHtml
+#
+
+if [ $# -ne 1 ]
+then
+    echo Usage: runHtml project
+    exit 1
+fi
+
+project=$1
+
+mydir=$(dirname "$(readlink -f "$0")")
+pushd $mydir > /dev/null
+
+if [ ! -d $project ]
+then
+    $project is not a valid project directory
+    exit 1
+fi
+
+pushd ProcessingGdx > /dev/null
+gradlew build
+popd > /dev/null
+
+pushd $project > /dev/null
+gradlew html:clean
+gradlew html:build
+gradlew html:superDev
+
