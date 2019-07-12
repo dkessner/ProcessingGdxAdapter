@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.*;
+import static com.badlogic.gdx.graphics.Camera.*;
 
 
 public class PApplet
@@ -35,6 +36,8 @@ public class PApplet
         // PApplet initialization
 
         shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(camera.combined);
+
         batch = new SpriteBatch();
 
         // sketch initializaton
@@ -88,6 +91,8 @@ public class PApplet
     {
         Gdx.graphics.setWindowedMode(width, height);
         camera = new OrthographicCamera(width, height);
+        camera.setToOrtho(true, width, height); // y down?
+        camera.update();
         this.width = width;
         this.height = height;
     }

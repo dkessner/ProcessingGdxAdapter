@@ -1,0 +1,14 @@
+#!/bin/bash
+
+files="
+DrawingTest/core/src/io/github/dkessner/DrawingTest.java 
+ProcessingGdx/src/main/java/processing/core/PApplet.java
+"
+
+for f in $files
+do
+    echo $f
+done
+
+gvim -c "set mp=runDesktop\ DrawingTest" $files
+
