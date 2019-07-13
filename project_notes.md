@@ -4,17 +4,17 @@
 
 ## Coordinate system
 
-libgdx uses y-up, while Processing uses y-down.  Can use OrthographicCamera in
-libgdx to switch.
+libgdx uses y-up, while Processing uses y-down.  
+[stack overflow discussion](https://stackoverflow.com/questions/7708379/changing-the-coordinate-system-in-libgdx-java)  
 
-[stack overflow
-discussion](https://stackoverflow.com/questions/7708379/changing-the-coordinate-system-in-libgdx-java)
+Can use OrthographicCamera in libgdx to switch.
 
-```
+```java
 camera= new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 ```
 
+Textures need to be flipped as well:
 ```
 String textureFile = "data/textures.txt";  
 atlas = new TextureAtlas(Gdx.files.internal(textureFile), Gdx.files.internal("data"));  
