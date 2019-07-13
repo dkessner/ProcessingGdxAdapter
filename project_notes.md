@@ -15,7 +15,7 @@ camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 ```
 
 Textures need to be flipped as well:
-```
+```java
 String textureFile = "data/textures.txt";  
 atlas = new TextureAtlas(Gdx.files.internal(textureFile), Gdx.files.internal("data"));  
 // Let's flip all the regions.  Required for y=0 is TOP
