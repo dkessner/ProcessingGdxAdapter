@@ -16,8 +16,7 @@ camera.setToOrtho(yDown, width, height);
 `ShapeRenderer` and `SpriteBatch` have method `setProjectionMatrix()`:
 ```java
 shapeRenderer.setProjectionMatrix(camera.combined);
-
-batch = new SpriteBatch();
+// ...
 batch.setProjectionMatrix(camera.combined);
 ```
 
