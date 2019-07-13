@@ -11,7 +11,7 @@ package processing.core;
 import com.badlogic.gdx.graphics.Texture;
 
 
-public class PImage
+public class PImage implements PConstants
 {
     public PImage() {}
 

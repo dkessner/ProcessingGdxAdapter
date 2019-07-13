@@ -1,5 +1,40 @@
 # ProcessingGdxAdapter project notes
 
+## Architecture
+
+In Processing, we have:
+
+```
+interface PConstants; // LEFT, RIGHT, CENTER, etc.
+
+class PImage implements PConstants;
+
+class PGraphics extends PImage;
+
+class PApplet implements PConstants;
+```
+
+PApplet shares much of its API with PGraphics, and in fact delegates all
+drawing to an internal member PGraphics object.  ProcessingGdx describes the
+shared API between PApplet and PGraphics using inheritance instead.
+
+
+```
+interface PConstants; // LEFT, RIGHT, CENTER, etc.
+
+class PImage implements PConstants;
+
+class PGraphics extends PImage;
+
+class PApplet extends PGraphics;
+```
+
+Licensing note: ProcessingGdx is currently using the actual `PConstants.java`
+source file from the Processing core library.  The Processing core library is
+licensed as LGPL.  For non-LGPL licensing of ProcessingGdx, `PConstants.java`
+could be moved to a separate jar file.  On the other hand, this is probably not
+a huge issue since it's just an interface defining constants (i.e. like a C/C++
+header file).
 
 
 ## Coordinate system
