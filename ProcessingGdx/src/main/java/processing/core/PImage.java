@@ -1,6 +1,8 @@
 //
 // PImage.java
 //
+// Darren Kessner
+//
 
 
 package processing.core;
@@ -11,6 +13,8 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class PImage
 {
+    public PImage() {}
+
     public PImage(String filename) 
     {
         texture = new Texture(filename);
@@ -19,10 +23,13 @@ public class PImage
     }
 
     @Override
-    public void finalize() {texture.dispose();}
+    public void finalize() 
+    {
+        texture.dispose();
+    }
 
-    public int width;
-    public int height;
+    protected int width;
+    protected int height;
 
     // libgdx implementation
 

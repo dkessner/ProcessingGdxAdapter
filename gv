@@ -3,6 +3,7 @@
 files="
 DrawingTest/core/src/io/github/dkessner/DrawingTest.java 
 ProcessingGdx/src/main/java/processing/core/PApplet.java
+ProcessingGdx/src/main/java/processing/core/PGraphics.java
 ProcessingGdx/src/main/java/processing/core/PImage.java
 "
 
