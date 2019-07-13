@@ -22,9 +22,11 @@ fi
 
 pushd ProcessingGdx > /dev/null
 gradlew build
+if [ $? -ne 0 ]; then exit 1 ;fi
 popd > /dev/null
 
 pushd $project > /dev/null
 gradlew desktop:build
+if [ $? -ne 0 ]; then exit 1 ;fi
 gradlew desktop:run
 

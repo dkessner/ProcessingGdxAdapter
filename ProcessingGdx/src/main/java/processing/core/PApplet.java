@@ -10,11 +10,11 @@ package processing.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.*;
 import static com.badlogic.gdx.graphics.Camera.*;
 
@@ -69,24 +69,6 @@ public class PApplet
     public void setup() {}
     public void draw() {}
 
-    // TODO: move PImage out
-
-    public class PImage extends Texture 
-    {
-        public PImage(String filename) 
-        {
-            super(filename); 
-            width = getWidth();
-            height = getHeight();
-        }
-
-        @Override
-        public void finalize() {super.dispose();}
-
-        public int width;
-        public int height;
-    }
-
     // PGraphics API
 
     public void size(int width, int height)
@@ -113,7 +95,7 @@ public class PApplet
         final boolean flipX = false;
         final boolean flipY = true;
 
-        batch.draw(img, x, y, w, h, 
+        batch.draw(img.getTexture(), x, y, w, h, 
                    0, 0, img.width, img.height,
                    flipX, flipY);
 

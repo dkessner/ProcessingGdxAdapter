@@ -6,9 +6,22 @@ package processing.core;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/*
 public class LibraryTest {
     @Test public void testSomeLibraryMethod() {
         Library classUnderTest = new Library();
         assertTrue("someLibraryMethod should return 'true'", classUnderTest.someLibraryMethod());
     }
 }
+*/
+
+/*
+//
+// Library.java
+//
+public class Library {
+    public boolean someLibraryMethod() {
+        return true;
+    }
+}
+*/
