@@ -7,24 +7,20 @@
 libgdx uses y-up, while Processing uses y-down.  
 [stack overflow discussion](https://stackoverflow.com/questions/7708379/changing-the-coordinate-system-in-libgdx-java)  
 
-Can use OrthographicCamera in libgdx to switch.
-
+Use `OrthographicCamera.setToOrtho(true)` to flip y-axis. 
 ```java
-camera= new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+camera = new OrthographicCamera(width, height);
+final boolean yDown = true;
+camera.setToOrtho(yDown, width, height);
+```
+`ShapeRenderer` and `SpriteBatch` have method `setProjectionMatrix()`:
+```java
+shapeRenderer.setProjectionMatrix(camera.combined);
+
+batch = new SpriteBatch();
+batch.setProjectionMatrix(camera.combined);
 ```
 
-Textures need to be flipped as well:
-```java
-String textureFile = "data/textures.txt";  
-atlas = new TextureAtlas(Gdx.files.internal(textureFile), Gdx.files.internal("data"));  
-// Let's flip all the regions.  Required for y=0 is TOP
-Array<AtlasRegion> tr = atlas.getRegions();      
-for (int i = 0; i < tr.size; i++) {
-  TextureRegion t = tr.get(i);
-  t.flip(false, true);
-}
-```
 [discussion of Texture and Pixmap](https://github.com/mattdesl/lwjgl-basics/wiki/libgdx-textures)  
 [discussion of Sprite, SpriteBatch and TextureRegion](https://github.com/libgdx/libgdx/wiki/Spritebatch,-Textureregions,-and-Sprites)
 

@@ -92,9 +92,11 @@ public class PApplet
     public void size(int width, int height)
     {
         Gdx.graphics.setWindowedMode(width, height);
+
         camera = new OrthographicCamera(width, height);
-        camera.setToOrtho(true, width, height); // y down?
-        camera.update();
+        final boolean yDown = true;
+        camera.setToOrtho(yDown, width, height);
+
         this.width = width;
         this.height = height;
     }
