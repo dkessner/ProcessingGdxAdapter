@@ -39,6 +39,7 @@ public class PApplet
         shapeRenderer.setProjectionMatrix(camera.combined);
 
         batch = new SpriteBatch();
+        batch.setProjectionMatrix(camera.combined);
 
         // sketch initializaton
 
@@ -47,6 +48,7 @@ public class PApplet
 
     public void render()
     {
+        // call (overridden) draw()
         draw();
     }
 
@@ -102,11 +104,23 @@ public class PApplet
         return new PImage(filename);
     }
 
-    public void image(PImage img, int x, int y)
+    public void image(PImage img, float x, float y, float w, float h)
     {
         batch.begin();
-        batch.draw(img, x, y);
+
+        final boolean flipX = false;
+        final boolean flipY = true;
+
+        batch.draw(img, x, y, w, h, 
+                   0, 0, img.width, img.height,
+                   flipX, flipY);
+
         batch.end();
+    }
+
+    public void image(PImage img, float x, float y)
+    {
+        image(img, x, y, img.width, img.height);
     }
 
     public void background(int r, int g, int b, int a)

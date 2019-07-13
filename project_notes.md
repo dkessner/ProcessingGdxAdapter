@@ -25,6 +25,8 @@ for (int i = 0; i < tr.size; i++) {
   t.flip(false, true);
 }
 ```
+[discussion of Texture and Pixmap](https://github.com/mattdesl/lwjgl-basics/wiki/libgdx-textures)  
+[discussion of Sprite, SpriteBatch and TextureRegion](https://github.com/libgdx/libgdx/wiki/Spritebatch,-Textureregions,-and-Sprites)
 
 ## Build
 

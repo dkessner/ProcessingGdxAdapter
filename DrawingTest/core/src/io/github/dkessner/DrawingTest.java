@@ -16,7 +16,7 @@ public class DrawingTest extends PApplet
     @Override
     public void settings()
     {
-        size(800, 400);
+        size(400, 400);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class DrawingTest extends PApplet
     {
         background(0);
 
-        image(img, 300, 300);
+        image(img, 300, 0, 100, 100);
 
         fill(255, 0, 0);
         ellipse(100, 100, 100, 50);
