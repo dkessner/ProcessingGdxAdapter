@@ -23,6 +23,9 @@ public class DrawingTest extends PApplet
     public void setup()
     {
         img = loadImage("badlogic.jpg");
+
+        pg = createGraphics(400, 400);
+        drawOffscreen();
     }
 
     @Override
@@ -30,7 +33,11 @@ public class DrawingTest extends PApplet
     {
         background(0);
 
+        // draw the badlogic logo
+
         image(img, 300, 0, 100, 100);
+
+        // draw RGB ellipses
 
         fill(255, 0, 0);
         ellipse(100, 100, 100, 50);
@@ -40,9 +47,32 @@ public class DrawingTest extends PApplet
 
         fill(0, 0, 255);
         ellipse(300, 300, 100, 50);
+
+        // draw the contents of the offscreen buffer
+
+        image(pg, 0, 300, 100, 100);
+    }
+
+    public void drawOffscreen()
+    {
+        pg.beginDraw();
+
+        pg.image(img, 300, 0, 100, 100);
+
+        pg.fill(255, 0, 0);
+        pg.ellipse(100, 100, 100, 50);
+
+        pg.fill(0, 255, 0);
+        pg.ellipse(200, 200, 100, 50);
+
+        pg.fill(0, 0, 255);
+        pg.ellipse(300, 300, 100, 50);
+
+        pg.endDraw();
     }
 
     private PImage img;
+    private PGraphics pg;
 }
 
 

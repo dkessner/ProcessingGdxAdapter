@@ -20,6 +20,7 @@ public class PImage implements PConstants
         texture = new Texture(filename);
         width = texture.getWidth();
         height = texture.getHeight();
+        flipY = true;
     }
 
     @Override
@@ -30,10 +31,12 @@ public class PImage implements PConstants
 
     protected int width;
     protected int height;
+    protected boolean flipY = false;
 
     // libgdx implementation
 
     Texture getTexture() {return texture;}
+    boolean flipY() {return flipY;}
 
     private Texture texture;
 }

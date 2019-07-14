@@ -28,10 +28,6 @@ public class PApplet extends PGraphics
 
         settings();
 
-        // PGraphics initialization
-
-        super.initialize(); 
-
         // sketch initializaton
 
         setup();
@@ -58,13 +54,7 @@ public class PApplet extends PGraphics
     public void size(int width, int height)
     {
         Gdx.graphics.setWindowedMode(width, height);
-
-        camera = new OrthographicCamera(width, height);
-        final boolean yDown = true;
-        camera.setToOrtho(yDown, width, height);
-
-        this.width = width;
-        this.height = height;
+        super.initialize(width, height);
     }
 }
 

@@ -5,6 +5,22 @@
 //
 
 
+// 
+// As in Processing, PGraphics provides the API for drawing to either the main
+// window or to an offscreen frame buffer.  Here we implement this using a
+// libgdx FrameBuffer object, which wraps an OpenGL frame buffer.
+//
+// To draw to the frame buffer, drawing calls must be made between
+// beginDraw()/endDraw().  Otherwise drawing calls go to the main screen.
+//
+// Implementation note: initialization of the coordinate system (including the
+// y-down transformation) needs to happen after we know the width and height
+// (of the window or the offscreen buffer).  In the window case, initialize()
+// should be called when the user calls size() or fullScreen().  In the
+// offscreen buffer case, we can call initialize() on construction.
+//
+
+
 package processing.core;
 
 import com.badlogic.gdx.Gdx;
@@ -12,8 +28,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.*;
+import static com.badlogic.gdx.graphics.Pixmap.*;
 import static com.badlogic.gdx.graphics.Camera.*;
 
 
@@ -25,29 +44,74 @@ public class PGraphics extends PImage
     public void setup() {}
     public void draw() {}
 
-    void initialize() // package-private
+    public PGraphics()
     {
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
+    }
 
-        if (camera != null)
-        {
-            shapeRenderer.setProjectionMatrix(camera.combined);
-            batch.setProjectionMatrix(camera.combined);
-        }
+    public PGraphics(int width, int height)
+    {
+        // create a new PGraphics object as an offscreen buffer, i.e. with a
+        // backing FrameBuffer object
+
+        this(); 
+        initialize(width, height);
+
+        final boolean hasDepth = false;
+        fb = new FrameBuffer(Format.RGBA8888, width, height, hasDepth);
+    }
+
+    void initialize(int width, int height) // package-private
+    {
+        // initialization for the coordinate system
+
+        this.width = width;
+        this.height = height;
+
+        camera = new OrthographicCamera(width, height);
+        final boolean yDown = true;
+        camera.setToOrtho(yDown, width, height);
+
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        batch.setProjectionMatrix(camera.combined);
     }
 
     public void finalize()
     {
-        shapeRenderer.dispose();
-        batch.dispose();
+        if (shapeRenderer != null) shapeRenderer.dispose();
+        if (batch != null) batch.dispose();
+        if (fb != null) fb.dispose();
     }
 
     // PGraphics API
 
+    public void beginDraw()
+    {
+        if (fb != null) fb.begin();
+    }
+
+    public void endDraw()
+    {
+        if (fb != null) fb.end();
+    }
+
+    public PGraphics createGraphics(int width, int height)
+    {
+        return new PGraphics(width, height);
+    }
+
     public PImage loadImage(String filename)
     {
         return new PImage(filename);
+    }
+
+    @Override
+    Texture getTexture() 
+    {
+        if (fb != null)
+            return fb.getColorBufferTexture();
+        return super.getTexture();
     }
 
     public void image(PImage img, float x, float y, float w, float h)
@@ -55,11 +119,14 @@ public class PGraphics extends PImage
         batch.begin();
 
         final boolean flipX = false;
-        final boolean flipY = true;
+        final boolean flipY = img.flipY();
 
-        batch.draw(img.getTexture(), x, y, w, h, 
-                   0, 0, img.width, img.height,
-                   flipX, flipY);
+        Texture t = img.getTexture();
+
+        if (t != null)
+            batch.draw(t, x, y, w, h, 
+                       0, 0, img.width, img.height,
+                       flipX, flipY);
 
         batch.end();
     }
@@ -94,6 +161,8 @@ public class PGraphics extends PImage
     }
     
     // implementation variables
+
+    private FrameBuffer fb;
 
     protected OrthographicCamera camera;
 
