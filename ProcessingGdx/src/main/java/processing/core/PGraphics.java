@@ -5,22 +5,6 @@
 //
 
 
-// 
-// As in Processing, PGraphics provides the API for drawing to either the main
-// window or to an offscreen frame buffer.  Here we implement this using a
-// libgdx FrameBuffer object, which wraps an OpenGL frame buffer.
-//
-// To draw to the frame buffer, drawing calls must be made between
-// beginDraw()/endDraw().  Otherwise drawing calls go to the main screen.
-//
-// Implementation note: initialization of the coordinate system (including the
-// y-down transformation) needs to happen after we know the width and height
-// (of the window or the offscreen buffer).  In the window case, initialize()
-// should be called when the user calls size() or fullScreen().  In the
-// offscreen buffer case, we can call initialize() on construction.
-//
-
-
 package processing.core;
 
 import com.badlogic.gdx.Gdx;
@@ -36,6 +20,23 @@ import static com.badlogic.gdx.graphics.Pixmap.*;
 import static com.badlogic.gdx.graphics.Camera.*;
 
 
+/**
+ * `PGraphics` provides the main Processing API.
+ *
+ * As in Processing, the PGraphics class provides the API for drawing to either
+ * the main window or to an offscreen frame buffer.  Here we implement this
+ * using a libgdx FrameBuffer object, which wraps an OpenGL frame buffer.
+ *
+ * To draw to the frame buffer, drawing calls must be made between
+ * beginDraw()/endDraw().  Otherwise drawing calls go to the main screen.  This
+ * behavior is the same as in Processing.
+ *
+ * Implementation note: initialization of the coordinate system (including the
+ * y-down transformation) needs to happen after we know the width and height
+ * (of the window or the offscreen buffer).  In the window case, initialize()
+ * should be called when the user calls size() or fullScreen().  In the
+ * offscreen buffer case, we can call initialize() on construction.
+ */
 public class PGraphics extends PImage
 {
     // PApplet methods to be overridden by Processing sketches
@@ -44,17 +45,27 @@ public class PGraphics extends PImage
     public void setup() {}
     public void draw() {}
 
+    /**
+     * Construct a new PGraphics object.
+     *
+     * This default constructor does not call {@link #initialize(int, int)}, which handles
+     * the coordinate system initialization.
+     */
     public PGraphics()
     {
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
     }
 
+    /**
+     * Construct a new PGraphics object as an offscreen buffer.  
+     *
+     * This constructor initializes the coordinate system, and creates a
+     * backing libgdx FrameBuffer object.
+     *
+     */
     public PGraphics(int width, int height)
     {
-        // create a new PGraphics object as an offscreen buffer, i.e. with a
-        // backing FrameBuffer object
-
         this(); 
         initialize(width, height);
 
@@ -62,6 +73,13 @@ public class PGraphics extends PImage
         fb = new FrameBuffer(Format.RGBA8888, width, height, hasDepth);
     }
 
+    /**
+     * Initializes the coordinate system:  
+     *
+     * - y-axis down
+     * - (0,0) top right
+     * - (width, height) bottom left
+     */
     void initialize(int width, int height) // package-private
     {
         // initialization for the coordinate system
