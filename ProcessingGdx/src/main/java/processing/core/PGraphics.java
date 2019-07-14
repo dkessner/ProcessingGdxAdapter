@@ -20,24 +20,23 @@ import static com.badlogic.gdx.graphics.Pixmap.*;
 import static com.badlogic.gdx.graphics.Camera.*;
 
 
-/**
- * `PGraphics` provides the main Processing API.
+/** Provides the main Processing API.
  *
  * As in Processing, the PGraphics class provides the API for drawing to either
  * the main window or to an offscreen frame buffer.  Here we implement this
  * using a libgdx FrameBuffer object, which wraps an OpenGL frame buffer.
  *
- * To draw to the frame buffer, drawing calls must be made between
- * beginDraw()/endDraw().  Otherwise drawing calls go to the main screen.  This
+ * To draw to the frame buffer, drawing calls must be made between beginDraw()
+ * and endDraw().  Otherwise drawing calls go to the main screen.  This
  * behavior is the same as in Processing.
  *
  * Implementation note: initialization of the coordinate system (including the
- * y-down transformation) needs to happen after we know the width and height
- * (of the window or the offscreen buffer).  In the window case, initialize()
- * should be called when the user calls size() or fullScreen().  In the
- * offscreen buffer case, we can call initialize() on construction.
+ * y-down transformation) happens after we know the width and height (of the
+ * window or the offscreen buffer).  In the window case, initialize() is called
+ * when the user calls size() or fullScreen() in settings().  In the offscreen
+ * buffer case, initialize() is called on construction.
  */
-public class PGraphics extends PImage
+public class PGraphics extends PImage 
 {
     // PApplet methods to be overridden by Processing sketches
 

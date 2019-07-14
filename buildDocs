@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# buildDocs
+#
+
+mydir=$(dirname "$(readlink -f "$0")")
+pushd $mydir > /dev/null
+
+pushd ProcessingGdx > /dev/null
+gradlew javadoc
+if [ $? -ne 0 ]; then exit 1 ;fi
+popd > /dev/null
+
+echo Press any key to open docs at ProcessingGdx/build/docs/javadoc/index.html
+read response
+open ProcessingGdx/build/docs/javadoc/index.html
+

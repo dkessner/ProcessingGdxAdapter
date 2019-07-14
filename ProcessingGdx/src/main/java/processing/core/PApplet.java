@@ -14,6 +14,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 
+/**
+ * Base class for all Processing sketches.
+ */
 public class PApplet extends PGraphics
 {
     public PApplet()
