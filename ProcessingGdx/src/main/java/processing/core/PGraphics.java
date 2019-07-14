@@ -19,35 +19,29 @@ import static com.badlogic.gdx.graphics.Camera.*;
 
 public class PGraphics extends PImage
 {
-    public void initialize()
-    {
-        // window initialization
-
-        settings();
-
-        // implementation initialization
-
-        shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(camera.combined);
-
-        batch = new SpriteBatch();
-        batch.setProjectionMatrix(camera.combined);
-
-        // sketch initializaton
-
-        setup();
-    }
-
-    public void finalize()
-    {
-        batch.dispose();
-    }
-
     // PApplet methods to be overridden by Processing sketches
 
     public void settings() {}
     public void setup() {}
     public void draw() {}
+
+    void initialize() // package-private
+    {
+        shapeRenderer = new ShapeRenderer();
+        batch = new SpriteBatch();
+
+        if (camera != null)
+        {
+            shapeRenderer.setProjectionMatrix(camera.combined);
+            batch.setProjectionMatrix(camera.combined);
+        }
+    }
+
+    public void finalize()
+    {
+        shapeRenderer.dispose();
+        batch.dispose();
+    }
 
     // PGraphics API
 

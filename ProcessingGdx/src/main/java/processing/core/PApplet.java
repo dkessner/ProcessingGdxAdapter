@@ -24,7 +24,17 @@ public class PApplet extends PGraphics
 
     public void create()
     {
-        initialize(); // PGraphics
+        // window initialization 
+
+        settings();
+
+        // PGraphics initialization
+
+        super.initialize(); 
+
+        // sketch initializaton
+
+        setup();
     }
 
     public void render()
