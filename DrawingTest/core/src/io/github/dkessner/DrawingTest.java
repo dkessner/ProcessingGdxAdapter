@@ -77,6 +77,11 @@ public class DrawingTest extends PApplet
         pg.endDraw();
     }
 
+    public void keyPressed()
+    {
+        println("keyPressed: " + key); 
+    }
+
     private PImage img;
     private PGraphics pg;
 }
