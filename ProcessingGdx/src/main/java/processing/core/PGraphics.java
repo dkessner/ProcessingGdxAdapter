@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.Color;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.*;
 import static com.badlogic.gdx.graphics.Pixmap.*;
@@ -164,17 +165,41 @@ public class PGraphics extends PImage
 
     public void fill(int r, int g, int b, int a)
     {
-        shapeRenderer.setColor(r/255f, g/255f, b/255f, 1);
+        fillColor.set(r, g, b, a);
+        currentFillColor = fillColor;
     }
 
     public void fill(int r, int g, int b) {fill(r, g, b, 255);}
     public void fill(int n) {fill(n, n, n, 255);}
+    public void noFill() {currentFillColor = null;}
+
+    public void stroke(int r, int g, int b, int a)
+    {
+        strokeColor.set(r, g, b, a);
+        currentStrokeColor = strokeColor;
+    }
+
+    public void stroke(int r, int g, int b) {stroke(r, g, b, 255);}
+    public void stroke(int n) {stroke(n, n, n, 255);}
+    public void noStroke() {currentStrokeColor = null;}
 
     public void ellipse(float x, float y, float width, float height)
     {
-        shapeRenderer.begin(ShapeType.Filled);
-        shapeRenderer.ellipse(x-width/2, y-height/2, width, height);
-        shapeRenderer.end();
+        if (currentFillColor != null)
+        {
+            shapeRenderer.setColor(currentFillColor);
+            shapeRenderer.begin(ShapeType.Filled);
+            shapeRenderer.ellipse(x-width/2, y-height/2, width, height);
+            shapeRenderer.end();
+        }
+
+        if (currentStrokeColor != null)
+        {
+            shapeRenderer.setColor(currentStrokeColor);
+            shapeRenderer.begin(ShapeType.Line);
+            shapeRenderer.ellipse(x-width/2, y-height/2, width, height);
+            shapeRenderer.end();
+        }
     }
     
     // implementation variables
@@ -185,6 +210,12 @@ public class PGraphics extends PImage
 
     private ShapeRenderer shapeRenderer;
     private SpriteBatch batch;
+
+    final private Color fillColor = new Color();
+    private Color currentFillColor = fillColor;
+
+    final private Color strokeColor = new Color();
+    private Color currentStrokeColor = strokeColor;
 }
 
 
