@@ -3,7 +3,7 @@
 # buildDocs
 #
 
-mydir=$(dirname "$(readlink -f "$0")")
+mydir=$(dirname "$(realpath "$0")")
 pushd $mydir > /dev/null
 
 pushd ProcessingGdx > /dev/null
