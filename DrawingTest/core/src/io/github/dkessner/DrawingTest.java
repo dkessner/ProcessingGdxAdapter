@@ -39,15 +39,19 @@ public class DrawingTest extends PApplet
 
         // draw RGB ellipses
 
+        colorMode(RGB, 255);
         fill(255, 0, 0);
         stroke(255);
         ellipse(100, 100, 100, 50);
 
+        colorMode(RGB, 1.0f);
         noFill();
-        stroke(0, 255, 0);
+        stroke(0, 1.0f, 0);
         ellipse(200, 200, 100, 50);
 
         fill(0, 0, 255);
+        //colorMode(HSB, 360, 100, 100);
+        //fill(240, 100, 100);
         noStroke();
         ellipse(300, 300, 100, 50);
 

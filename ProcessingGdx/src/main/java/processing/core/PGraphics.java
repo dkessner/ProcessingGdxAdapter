@@ -163,25 +163,68 @@ public class PGraphics extends PImage
     public void background(int r, int g, int b) {background(r, g, b, 255);}
     public void background(int n) {background(n, n, n, 255);}
 
-    public void fill(int r, int g, int b, int a)
+    public void fill(float v1, float v2, float v3, float a)
     {
-        fillColor.set(r, g, b, a);
+        setColor(fillColor, v1, v2, v3, a);
         currentFillColor = fillColor;
     }
 
-    public void fill(int r, int g, int b) {fill(r, g, b, 255);}
-    public void fill(int n) {fill(n, n, n, 255);}
+    public void fill(float v1, float v2, float v3) {fill(v1, v2, v3, aMax);}
+    public void fill(float v) {fill(v, v, v, aMax);}
     public void noFill() {currentFillColor = null;}
 
-    public void stroke(int r, int g, int b, int a)
+    public void stroke(float v1, float v2, float v3, float a)
     {
-        strokeColor.set(r, g, b, a);
+        setColor(strokeColor, v1, v2, v3, a);
         currentStrokeColor = strokeColor;
     }
 
-    public void stroke(int r, int g, int b) {stroke(r, g, b, 255);}
-    public void stroke(int n) {stroke(n, n, n, 255);}
+    public void stroke(float v1, float v2, float v3) {stroke(v1, v2, v3, aMax);}
+    public void stroke(int v) {stroke(v, v, v, 255);}
     public void noStroke() {currentStrokeColor = null;}
+
+    private void setColor(Color c, float v1, float v2, float v3, float a)
+    {
+        if (colorMode == HSB)
+        {
+            c.fromHsv(v1/v1Max, v2/v2Max, v3/v3Max);
+            c.a = a/aMax;
+        }
+        else // colorMode == RGB
+        {
+            c.set(v1/v1Max, v2/v2Max, v3/v3Max, a/aMax);
+        }
+    }
+
+    public void colorMode(int colorMode, float v1Max, float v2Max, float v3Max, float aMax)
+    {
+        this.colorMode = colorMode;
+        this.v1Max = v1Max;
+        this.v2Max = v2Max;
+        this.v3Max = v3Max;
+        this.aMax = aMax;
+    }
+
+    public void colorMode(int colorMode, float v1Max, float v2Max, float v3Max)
+    {
+        this.colorMode = colorMode;
+        this.v1Max = v1Max;
+        this.v2Max = v2Max;
+        this.v3Max = v3Max;
+    }
+
+    public void colorMode(int colorMode, float max)
+    {   
+        this.colorMode = colorMode;
+        this.v1Max = max;
+        this.v2Max = max;
+        this.v3Max = max;
+    }
+
+    public void colorMode(int colorMode)
+    {
+        this.colorMode = colorMode;
+    }
 
     public void ellipse(float x, float y, float width, float height)
     {
@@ -216,6 +259,12 @@ public class PGraphics extends PImage
 
     final private Color strokeColor = new Color();
     private Color currentStrokeColor = strokeColor;
+
+    private int colorMode = RGB;
+    private float v1Max = 255.f;
+    private float v2Max = 255.f;
+    private float v3Max = 255.f;
+    private float aMax = 255.f;
 }
 
 
