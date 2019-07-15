@@ -187,7 +187,7 @@ public class PGraphics extends PImage
     {
         if (colorMode == HSB)
         {
-            c.fromHsv(v1/v1Max, v2/v2Max, v3/v3Max);
+            c.fromHsv(v1/v1Max*360, v2/v2Max, v3/v3Max);
             c.a = a/aMax;
         }
         else // colorMode == RGB

@@ -49,9 +49,8 @@ public class DrawingTest extends PApplet
         stroke(0, 1.0f, 0);
         ellipse(200, 200, 100, 50);
 
-        fill(0, 0, 255);
-        //colorMode(HSB, 360, 100, 100);
-        //fill(240, 100, 100);
+        colorMode(HSB, 360, 100, 100);
+        fill(240, 100, 100); // blue HSV 
         noStroke();
         ellipse(300, 300, 100, 50);
 
