@@ -52,15 +52,36 @@ public class PApplet extends PGraphics implements InputProcessor
 
     // InputProcessor interface
 
+    private void translateGdxKeycodeToProcessing(int gdxKeycode)
+    {
+        println("gdxKeycode: " + gdxKeycode);
+
+        // set variables key and keyCode based on gdxKeycode
+
+        if (Input.Keys.A <= gdxKeycode && gdxKeycode <= Input.Keys.Z)
+        {
+            this.key = (char)(gdxKeycode - Input.Keys.A + (int)'a');
+            this.keyCode = key + 'A' - 'a';
+
+            if ((gdxKeycode & Input.Keys.META_SHIFT_LEFT_ON) != 0)
+            {
+                key += 'A' - 'a';
+            }
+        }
+        else if (gdxKeycode == Input.Keys.SHIFT_RIGHT || 
+                 gdxKeycode == Input.Keys.SHIFT_LEFT)
+        {
+            this.key = CODED;
+            this.keyCode = SHIFT;
+        }
+    }
+
     @Override
     public boolean keyDown(int keycode)
     {
-        if (Input.Keys.A <= keycode && keycode <= Input.Keys.Z)
-        {
-            key = (char)(keycode - Input.Keys.A + (int)'a');
-        }
+        translateGdxKeycodeToProcessing(keycode);
         keyPressed();                     
-        return false;
+        return true;
     }
 
     @Override
@@ -72,7 +93,9 @@ public class PApplet extends PGraphics implements InputProcessor
     @Override
     public boolean keyUp(int keycode)
     {
-        return false;
+        translateGdxKeycodeToProcessing(keycode);
+        keyReleased();                     
+        return true;
     }
 
     @Override
@@ -122,6 +145,7 @@ public class PApplet extends PGraphics implements InputProcessor
     // event handling
 
     public void keyPressed() {}
+    public void keyReleased() {}
 
     public char key;
     public int keyCode;

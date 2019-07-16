@@ -79,7 +79,12 @@ public class DrawingTest extends PApplet
 
     public void keyPressed()
     {
-        println("keyPressed: " + key); 
+        println("keyPressed key: " + key + " (int)key: " + (int)key + " keyCode: " + keyCode); 
+    }
+
+    public void keyReleased()
+    {
+        println("keyReleased key: " + key + " (int)key: " + (int)key + " keyCode: " + keyCode); 
     }
 
     private PImage img;
