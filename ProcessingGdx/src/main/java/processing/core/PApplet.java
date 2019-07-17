@@ -54,7 +54,7 @@ public class PApplet extends PGraphics implements InputProcessor
 
     private void translateGdxKeycodeToProcessing(int gdxKeycode)
     {
-        println("gdxKeycode: " + gdxKeycode);
+        println("translateGdxKeycodeToProcessing() gdxKeycode: " + gdxKeycode);
 
         // set variables key and keyCode based on gdxKeycode
 
@@ -66,16 +66,23 @@ public class PApplet extends PGraphics implements InputProcessor
             if (keyShiftDown) 
                 key += 'A' - 'a';
         }
+        else if (gdxKeycode == Input.Keys.ENTER) // TODO: check against ASCII values for efficiency?
+        {
+            this.key = ENTER;
+            this.keyCode = 0;
+        }
+        // CODED keys 
+        // TODO: apparently keyTyped() call is suppressed for CODED keys; verify and add unit tests
         else if (gdxKeycode == Input.Keys.SHIFT_RIGHT || 
                  gdxKeycode == Input.Keys.SHIFT_LEFT)
         {
             this.key = CODED;
             this.keyCode = SHIFT;
         }
-        else if (gdxKeycode == Input.Keys.ENTER)
+        else if (gdxKeycode == Input.Keys.UP)
         {
-            this.key = ENTER;
-            this.keyCode = 0;
+            this.key = CODED;
+            this.keyCode = UP;
         }
     }
 

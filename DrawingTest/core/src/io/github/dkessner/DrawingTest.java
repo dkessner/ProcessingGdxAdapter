@@ -63,8 +63,11 @@ public class DrawingTest extends PApplet
     {
         pg.beginDraw();
 
+        pg.background(50);
+
         pg.image(img, 300, 0, 100, 100);
 
+        pg.noStroke();
         pg.fill(255, 0, 0);
         pg.ellipse(100, 100, 100, 50);
 
