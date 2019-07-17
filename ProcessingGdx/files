@@ -1,3 +1,4 @@
+./src/test/java/processing/core/EventHandlingTest.java
 ./src/main/java/processing/core/PApplet.java
 ./src/main/java/processing/core/PGraphics.java
 ./src/main/java/processing/core/PImage.java

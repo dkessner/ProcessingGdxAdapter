@@ -48,14 +48,11 @@ public class PGraphics extends PImage
     /**
      * Construct a new PGraphics object.
      *
-     * This default constructor does not call {@link #initialize(int, int)}, which handles
-     * the coordinate system initialization.
+     * Note: This default constructor does not initialize anything.
+     * Initialization happens when the client subclass calls size() or
+     * fullScreen(), which calls initialize().
      */
-    public PGraphics()
-    {
-        shapeRenderer = new ShapeRenderer();
-        batch = new SpriteBatch();
-    }
+    public PGraphics() {}
 
     /**
      * Construct a new PGraphics object as an offscreen buffer.  
@@ -74,14 +71,19 @@ public class PGraphics extends PImage
     }
 
     /**
-     * Initializes the coordinate system:  
+     * Initialization, which can be called during or after construction.
      *
-     * - y-axis down
-     * - (0,0) top right
-     * - (width, height) bottom left
+     * - internal libgdx objects
+     * - the coordinate system
+     *      - y-axis down
+     *      - (0,0) top right
+     *      - (width, height) bottom left
      */
     void initialize(int width, int height) // package-private
     {
+        shapeRenderer = new ShapeRenderer();
+        batch = new SpriteBatch();
+
         // initialization for the coordinate system
 
         this.width = width;

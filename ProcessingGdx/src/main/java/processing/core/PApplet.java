@@ -54,8 +54,6 @@ public class PApplet extends PGraphics implements InputProcessor
 
     private void translateGdxKeycodeToProcessing(int gdxKeycode)
     {
-        println("translateGdxKeycodeToProcessing() gdxKeycode: " + gdxKeycode);
-
         // set variables key and keyCode based on gdxKeycode
 
         if (Input.Keys.A <= gdxKeycode && gdxKeycode <= Input.Keys.Z)
@@ -89,6 +87,7 @@ public class PApplet extends PGraphics implements InputProcessor
     @Override
     public boolean keyDown(int keycode)
     {
+        println("libgdx keyDown keycode: " + keycode);
         translateGdxKeycodeToProcessing(keycode);
         if (keyCode == SHIFT) keyShiftDown = true;
         keyPressed();                     
@@ -98,15 +97,18 @@ public class PApplet extends PGraphics implements InputProcessor
     @Override
     public boolean keyTyped(char character)
     {
+        println("libgdx keyTyped character: " + (int)character);
         this.key = character;
         this.keyCode = 0;
-        keyTyped();
+        if (character != '\0')
+            keyTyped();
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode)
     {
+        println("libgdx keyUp keycode: " + keycode);
         translateGdxKeycodeToProcessing(keycode);
         if (keyCode == SHIFT) keyShiftDown = false;
         keyReleased();                     

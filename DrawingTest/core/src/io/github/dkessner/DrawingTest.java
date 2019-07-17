@@ -83,19 +83,19 @@ public class DrawingTest extends PApplet
     @Override
     public void keyPressed()
     {
-        println("keyPressed key: " + (int)key + " keyCode: " + keyCode); 
+        println("processing keyPressed key: " + (int)key + " keyCode: " + keyCode); 
     }
 
     @Override
     public void keyTyped()
     {
-        println("keyTyped key: " + (int)key + " keyCode: " + keyCode); 
+        println("processing keyTyped key: " + (int)key + " keyCode: " + keyCode); 
     }
 
     @Override
     public void keyReleased()
     {
-        println("keyReleased key: " + (int)key + " keyCode: " + keyCode); 
+        println("processing keyReleased key: " + (int)key + " keyCode: " + keyCode); 
     }
 
     private PImage img;
