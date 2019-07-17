@@ -70,7 +70,7 @@ public class PApplet extends PGraphics implements InputProcessor
             this.keyCode = 0;
         }
         // CODED keys 
-        // TODO: apparently keyTyped() call is suppressed for CODED keys; verify and add unit tests
+        // TODO: put this in a map
         else if (gdxKeycode == Input.Keys.SHIFT_RIGHT || 
                  gdxKeycode == Input.Keys.SHIFT_LEFT)
         {
