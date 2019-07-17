@@ -77,14 +77,22 @@ public class DrawingTest extends PApplet
         pg.endDraw();
     }
 
+    @Override
     public void keyPressed()
     {
-        println("keyPressed key: " + key + " (int)key: " + (int)key + " keyCode: " + keyCode); 
+        println("keyPressed key: " + (int)key + " keyCode: " + keyCode); 
     }
 
+    @Override
+    public void keyTyped()
+    {
+        println("keyTyped key: " + (int)key + " keyCode: " + keyCode); 
+    }
+
+    @Override
     public void keyReleased()
     {
-        println("keyReleased key: " + key + " (int)key: " + (int)key + " keyCode: " + keyCode); 
+        println("keyReleased key: " + (int)key + " keyCode: " + keyCode); 
     }
 
     private PImage img;
