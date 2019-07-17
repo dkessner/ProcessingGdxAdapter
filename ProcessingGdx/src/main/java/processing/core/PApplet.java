@@ -90,7 +90,7 @@ public class PApplet extends PGraphics implements InputProcessor
         println("libgdx keyDown keycode: " + keycode);
         translateGdxKeycodeToProcessing(keycode);
         if (keyCode == SHIFT) keyShiftDown = true;
-        keyPressed();                     
+        keyPressed();
         return true;
     }
 
@@ -98,10 +98,13 @@ public class PApplet extends PGraphics implements InputProcessor
     public boolean keyTyped(char character)
     {
         println("libgdx keyTyped character: " + (int)character);
+
+        if (character == '\0' || key == CODED)
+            return true;    // suppress call to PApplet.keyTyped()
+
         this.key = character;
         this.keyCode = 0;
-        if (character != '\0')
-            keyTyped();
+        keyTyped();
         return true;
     }
 

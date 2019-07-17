@@ -59,6 +59,15 @@ public class EventHandlingTest
                             KeyReleased, CODED, SHIFT};
 
         assertTrue(testTranslateKeyEvents(papplet, input_A, expected_A));
+
+        int[] input_UP = {KeyDown, Input.Keys.UP,
+                          KeyTyped, 63232,
+                          KeyUp, Input.Keys.UP};
+
+        int[] expected_UP = {KeyPressed, CODED, UP,
+                             KeyReleased, CODED, UP};
+
+        assertTrue(testTranslateKeyEvents(papplet, input_UP, expected_UP));
     }
 
     private boolean testTranslateKeyEvents(TestPApplet papplet, int[] input, int[] expected)
