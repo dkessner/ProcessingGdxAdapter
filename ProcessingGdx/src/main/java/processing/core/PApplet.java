@@ -8,6 +8,7 @@
 package processing.core;
 
 
+import java.util.HashMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Color;
@@ -23,6 +24,7 @@ public class PApplet extends PGraphics implements InputProcessor
 {
     public PApplet()
     {
+        initializeKeyCodeMap();
     }
 
     // communication with gdx.ApplicationAdapter
@@ -52,6 +54,15 @@ public class PApplet extends PGraphics implements InputProcessor
 
     // InputProcessor interface
 
+    private void initializeKeyCodeMap()
+    {
+        keyCodeMap = new HashMap<Integer, Integer>();
+
+        keyCodeMap.put(Input.Keys.SHIFT_RIGHT, SHIFT);
+        keyCodeMap.put(Input.Keys.SHIFT_LEFT, SHIFT);
+        keyCodeMap.put(Input.Keys.UP, UP);
+    }
+
     private void translateGdxKeycodeToProcessing(int gdxKeycode)
     {
         // set variables key and keyCode based on gdxKeycode
@@ -69,18 +80,10 @@ public class PApplet extends PGraphics implements InputProcessor
             this.key = ENTER;
             this.keyCode = 0;
         }
-        // CODED keys 
-        // TODO: put this in a map
-        else if (gdxKeycode == Input.Keys.SHIFT_RIGHT || 
-                 gdxKeycode == Input.Keys.SHIFT_LEFT)
+        else
         {
-            this.key = CODED;
-            this.keyCode = SHIFT;
-        }
-        else if (gdxKeycode == Input.Keys.UP)
-        {
-            this.key = CODED;
-            this.keyCode = UP;
+            key = CODED;
+            keyCode = keyCodeMap.getOrDefault(gdxKeycode, 0);
         }
     }
 
@@ -170,7 +173,9 @@ public class PApplet extends PGraphics implements InputProcessor
 
     public char key;
     public int keyCode;
-    public boolean keyShiftDown;
+    private boolean keyShiftDown;
+
+    private HashMap<Integer, Integer> keyCodeMap;
 }
 
 
