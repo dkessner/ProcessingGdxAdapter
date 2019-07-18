@@ -57,6 +57,8 @@ public class DrawingTest extends PApplet
         // draw the contents of the offscreen buffer
 
         image(pg, 0, 300, 100, 100);
+
+        drawSomething();
     }
 
     public void drawOffscreen()

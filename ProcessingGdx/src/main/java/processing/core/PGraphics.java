@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer;
 import com.badlogic.gdx.graphics.Color;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.*;
@@ -105,6 +106,11 @@ public class PGraphics extends PImage
     }
 
     // PGraphics API
+
+    public void println(Object o)
+    {
+        System.out.println(o);
+    }
 
     public void beginDraw()
     {
@@ -245,6 +251,21 @@ public class PGraphics extends PImage
             shapeRenderer.ellipse(x-width/2, y-height/2, width, height);
             shapeRenderer.end();
         }
+    }
+
+    public void drawSomething()
+    {
+        ImmediateModeRenderer r = shapeRenderer.getRenderer();
+        if (r == null) return;
+
+        r.begin(camera.combined, GL20.GL_TRIANGLES);
+        r.color(1, 0, 0, 1);
+        r.vertex(300, 200, 0);
+        r.color(0, 1, 0, 1);
+        r.vertex(400, 200, 0);
+        r.color(0, 0, 1, 1);
+        r.vertex(350, 250, 0);
+        r.end();
     }
     
     // implementation variables
