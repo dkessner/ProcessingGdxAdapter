@@ -59,6 +59,21 @@ public class DrawingTest extends PApplet
         image(pg, 0, 300, 100, 100);
 
         drawPolygon();
+        drawRotatedEllipses();
+    }
+
+    public void drawRotatedEllipses()
+    {
+        translate(200, 50); 
+
+        pushMatrix();
+        rotate(PI/4);
+        fill(255, 255, 0); // yellow
+        ellipse(0, 0, 100, 50);
+        popMatrix();
+
+        fill(0, 0, 255);
+        ellipse(0, 0, 50, 25);
     }
 
     public void drawPolygon()

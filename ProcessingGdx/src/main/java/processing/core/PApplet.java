@@ -38,7 +38,8 @@ public class PApplet extends PGraphics implements InputProcessor
 
     public void render()
     {
-        draw(); // PApplet subclass
+        beforeDraw();
+        draw();         // PApplet subclass
     }
 
     public void resize(int width, int height)

@@ -8,6 +8,8 @@
 package processing.core;
 
 import java.util.HashMap;
+import java.util.Stack;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,6 +19,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Matrix4;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.*;
 import static com.badlogic.gdx.graphics.Pixmap.*;
@@ -106,6 +109,11 @@ public class PGraphics extends PImage
         if (shapeRenderer != null) shapeRenderer.dispose();
         if (batch != null) batch.dispose();
         if (fb != null) fb.dispose();
+    }
+
+    /*package-private*/ void beforeDraw()
+    {
+        shapeRenderer.identity();
     }
 
     // PGraphics API
@@ -260,6 +268,7 @@ public class PGraphics extends PImage
     {
         shapeTypeMap = new HashMap<Integer, Integer>();
         shapeTypeMap.put(POLYGON, GL20.GL_TRIANGLE_FAN);
+        // TODO: add shape types
     }
 
     public void beginShape(int kind)
@@ -293,7 +302,48 @@ public class PGraphics extends PImage
     }
 
     public void vertex(float x, float y) {vertex(x, y, 0);}
-   
+
+    // TODO: texture(u, v)
+
+    // Model-view matrix transformations: we're using the convenient libgdx
+    // ShapeRenderer transformations, but with our own Matrix4 stack.
+
+    public void pushMatrix()
+    {
+        matrixStack.push(shapeRenderer.getTransformMatrix().cpy());
+    }
+
+    public void popMatrix()
+    {
+        shapeRenderer.setTransformMatrix(matrixStack.pop());
+    }
+
+    private Stack<Matrix4> matrixStack = new Stack<Matrix4>();
+
+    public void translate(float x, float y, float z)
+    {
+        shapeRenderer.translate(x, y, z);     
+    }
+
+    public void translate(float x, float y) {translate(x, y, 0);}
+
+    // TODO: rotateX, rotateY
+
+    public void rotateZ(float angle)
+    {
+        shapeRenderer.rotate(0, 0, 1, angle*180/PI);
+    }
+
+    public void rotate(float angle) {rotateZ(angle);}
+
+    public void scale(float x, float y, float z)
+    {
+        shapeRenderer.scale(x, y, z);     
+    }
+
+    public void scale(float x, float y) {scale(x, y, 1);}
+
+    
     // libgdx implementation 
 
     private FrameBuffer fb;
