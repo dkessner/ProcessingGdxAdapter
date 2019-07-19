@@ -14,7 +14,8 @@ gradlew build
 After creating a new libgdx project, you need to do the following to use the
 ProcessingGdx library.
 
-### add ProcessingGdx as dependency of the :core project
+## add ProcessingGdx as dependency of the :core project and as a
+## dependency of the :html project
 
 _<project_name>_`/build.gradle`:
 
@@ -27,8 +28,6 @@ project(":core") {
 
 ```
 
-### add ProcessingGdx as a dependency of the :html project
-
 ```
 project(":html") {
     dependencies {
@@ -40,6 +39,7 @@ project(":html") {
 ### tell GWT compiler where the ProcessingGdx source is
  
 _<project_name>_`/html/src/io/github/dkessner/GdxDefinition.gwt.xml`:
+
 ```
     <module>
         <inherits name='ProcessingGdx' />
