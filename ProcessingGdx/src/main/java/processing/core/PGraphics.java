@@ -7,6 +7,7 @@
 
 package processing.core;
 
+import java.util.HashMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -84,6 +85,8 @@ public class PGraphics extends PImage
     {
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
+
+        initializeShapeTypeMap();
 
         // initialization for the coordinate system
 
@@ -253,29 +256,54 @@ public class PGraphics extends PImage
         }
     }
 
-    public void drawSomething()
+    private void initializeShapeTypeMap()
+    {
+        shapeTypeMap = new HashMap<Integer, Integer>();
+        shapeTypeMap.put(POLYGON, GL20.GL_TRIANGLE_FAN);
+    }
+
+    public void beginShape(int kind)
     {
         ImmediateModeRenderer r = shapeRenderer.getRenderer();
         if (r == null) return;
 
-        r.begin(camera.combined, GL20.GL_TRIANGLES);
-        r.color(1, 0, 0, 1);
-        r.vertex(300, 200, 0);
-        r.color(0, 1, 0, 1);
-        r.vertex(400, 200, 0);
-        r.color(0, 0, 1, 1);
-        r.vertex(350, 250, 0);
+        if (!shapeTypeMap.containsKey(kind))
+            throw new RuntimeException("[PGraphics.beginShape()] Invalid shape type.");
+
+        r.begin(camera.combined, shapeTypeMap.get(kind));
+    }
+
+    public void endShape()
+    {
+        ImmediateModeRenderer r = shapeRenderer.getRenderer();
+        if (r == null) return;
+
         r.end();
     }
-    
-    // implementation variables
+
+    public void vertex(float x, float y, float z)
+    {
+        ImmediateModeRenderer r = shapeRenderer.getRenderer();
+        if (r == null) return;
+
+        if (currentFillColor != null)
+            r.color(currentFillColor);
+
+        r.vertex(x, y, z);
+    }
+
+    public void vertex(float x, float y) {vertex(x, y, 0);}
+   
+    // libgdx implementation 
 
     private FrameBuffer fb;
 
-    protected OrthographicCamera camera;
+    private OrthographicCamera camera;
 
     private ShapeRenderer shapeRenderer;
     private SpriteBatch batch;
+
+    // color handling
 
     final private Color fillColor = new Color();
     private Color currentFillColor = fillColor;
@@ -288,6 +316,11 @@ public class PGraphics extends PImage
     private float v2Max = 255.f;
     private float v3Max = 255.f;
     private float aMax = 255.f;
+
+    // immediate mode rendering
+
+    HashMap<Integer, Integer> shapeTypeMap;
+
 }
 
 

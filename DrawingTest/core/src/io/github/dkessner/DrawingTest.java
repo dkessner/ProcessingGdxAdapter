@@ -58,7 +58,20 @@ public class DrawingTest extends PApplet
 
         image(pg, 0, 300, 100, 100);
 
-        drawSomething();
+        drawPolygon();
+    }
+
+    public void drawPolygon()
+    {
+        colorMode(RGB, 255);
+        beginShape(POLYGON);
+        fill(255, 0, 0);
+        vertex(300, 200);
+        fill(0, 255, 0);
+        vertex(400, 200);
+        fill(0, 0, 255);
+        vertex(350, 250);
+        endShape();
     }
 
     public void drawOffscreen()
