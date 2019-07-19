@@ -1,7 +1,9 @@
 #!/bin/bash
 
+# DrawingTest/core/src/io/github/dkessner/DrawingTest.java 
+
 files="
-DrawingTest/core/src/io/github/dkessner/DrawingTest.java 
+Test3D/core/src/io/github/dkessner/Test3D.java 
 ProcessingGdx/src/main/java/processing/core/PApplet.java
 ProcessingGdx/src/main/java/processing/core/PGraphics.java
 ProcessingGdx/src/main/java/processing/core/PImage.java
@@ -12,5 +14,5 @@ do
     echo $f
 done
 
-gvim -c "set mp=runDesktop\ DrawingTest" $files
+gvim -c "set mp=runDesktop\ Test3D" $files
 
