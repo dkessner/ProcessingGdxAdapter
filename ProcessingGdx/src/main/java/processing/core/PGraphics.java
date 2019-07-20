@@ -97,22 +97,24 @@ public class PGraphics extends PImage
         this.width = width;
         this.height = height;
 
-        camera = new OrthographicCamera(width, height);
+        /*        camera = new OrthographicCamera(width, height);
         final boolean yDown = true;
         camera.setToOrtho(yDown, width, height);
         //println("[PGraphics initialize()] camera near: " + camera.near + " far: " + camera.far);
 
-        /*
+        */
+
         float aspectRatio = (float)width / height;
-        camera = new PerspectiveCamera(45, aspectRatio, 1);
+        camera = new PerspectiveCamera(45, width, height);
 
         camera.position.x = 200f;
         camera.position.y = 200f;
-        camera.position.z = 200f;
+        camera.position.z = 500f;
+        camera.far = 1000f;
         camera.lookAt(200, 200, 0);
 
-        camera.update();
-        */
+        camera.update(true);
+
 
         shapeRenderer.setProjectionMatrix(camera.combined);
         batch.setProjectionMatrix(camera.combined);
@@ -202,6 +204,12 @@ public class PGraphics extends PImage
         currentFillColor = fillColor;
     }
 
+    public void fill(Color c)
+    {
+        fillColor.set(c);
+        currentFillColor = fillColor;
+    }
+
     public void fill(float v1, float v2, float v3) {fill(v1, v2, v3, aMax);}
     public void fill(float v) {fill(v, v, v, aMax);}
     public void noFill() {currentFillColor = null;}
@@ -212,18 +220,26 @@ public class PGraphics extends PImage
         currentStrokeColor = strokeColor;
     }
 
+    public void stroke(Color c)
+    {
+        strokeColor.set(c);
+        currentStrokeColor = strokeColor;
+    }
+
     public void stroke(float v1, float v2, float v3) {stroke(v1, v2, v3, aMax);}
     public void stroke(int v) {stroke(v, v, v, aMax);}
     public void noStroke() {currentStrokeColor = null;}
 
-    public int color(float v1, float v2, float v3, float a)
+    public class color extends Color {} // implement Processing color type as a libgdx Color
+
+    public color color(float v1, float v2, float v3, float a)
     {
         setColor(tempColor, v1, v2, v3, a);
-        return Color.argb8888(tempColor);
+        return tempColor;
     }
 
-    public int color(float v1, float v2, float v3) {return color(v1, v2, v3, aMax);}
-    public int color(float v) {return color(v, v, v, aMax);}
+    public color color(float v1, float v2, float v3) {return color(v1, v2, v3, aMax);}
+    public color color(float v) {return color(v, v, v, aMax);}
 
     private void setColor(Color c, float v1, float v2, float v3, float a)
     {
@@ -414,8 +430,8 @@ public class PGraphics extends PImage
 
     private FrameBuffer fb;
 
-    private OrthographicCamera camera;
-    //private PerspectiveCamera camera;
+    //private OrthographicCamera camera;
+    private PerspectiveCamera camera;
 
     private ShapeRenderer shapeRenderer;
     private SpriteBatch batch;
@@ -428,7 +444,7 @@ public class PGraphics extends PImage
     final private Color strokeColor = new Color();
     private Color currentStrokeColor = strokeColor;
 
-    final private Color tempColor = new Color(); // to avoid creation of new object on call to color()
+    final private color tempColor = new color(); // to avoid creation of new object on call to color()
 
     private int colorMode = RGB;
     private float v1Max = 255.f;

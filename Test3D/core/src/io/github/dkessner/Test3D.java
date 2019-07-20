@@ -85,10 +85,10 @@ public class Test3D extends PApplet
 
     void drawTicks()
     {
-        final int red = color(255, 0, 0);
-        final int green = color(0, 255, 0);
-        final int blue = color(0, 0, 255);
-        final int white = color(255);
+        final color red = color(255, 0, 0);
+        final color green = color(0, 255, 0);
+        final color blue = color(0, 0, 255);
+        final color white = color(255);
 
         // red boxes on x-axis
 
