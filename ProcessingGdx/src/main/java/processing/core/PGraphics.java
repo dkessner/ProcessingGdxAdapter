@@ -13,6 +13,7 @@ import java.util.Stack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Texture;
@@ -100,6 +101,18 @@ public class PGraphics extends PImage
         final boolean yDown = true;
         camera.setToOrtho(yDown, width, height);
         //println("[PGraphics initialize()] camera near: " + camera.near + " far: " + camera.far);
+
+        /*
+        float aspectRatio = (float)width / height;
+        camera = new PerspectiveCamera(45, aspectRatio, 1);
+
+        camera.position.x = 200f;
+        camera.position.y = 200f;
+        camera.position.z = 200f;
+        camera.lookAt(200, 200, 0);
+
+        camera.update();
+        */
 
         shapeRenderer.setProjectionMatrix(camera.combined);
         batch.setProjectionMatrix(camera.combined);
@@ -200,8 +213,17 @@ public class PGraphics extends PImage
     }
 
     public void stroke(float v1, float v2, float v3) {stroke(v1, v2, v3, aMax);}
-    public void stroke(int v) {stroke(v, v, v, 255);}
+    public void stroke(int v) {stroke(v, v, v, aMax);}
     public void noStroke() {currentStrokeColor = null;}
+
+    public int color(float v1, float v2, float v3, float a)
+    {
+        setColor(tempColor, v1, v2, v3, a);
+        return Color.argb8888(tempColor);
+    }
+
+    public int color(float v1, float v2, float v3) {return color(v1, v2, v3, aMax);}
+    public int color(float v) {return color(v, v, v, aMax);}
 
     private void setColor(Color c, float v1, float v2, float v3, float a)
     {
@@ -393,6 +415,7 @@ public class PGraphics extends PImage
     private FrameBuffer fb;
 
     private OrthographicCamera camera;
+    //private PerspectiveCamera camera;
 
     private ShapeRenderer shapeRenderer;
     private SpriteBatch batch;
@@ -404,6 +427,8 @@ public class PGraphics extends PImage
 
     final private Color strokeColor = new Color();
     private Color currentStrokeColor = strokeColor;
+
+    final private Color tempColor = new Color(); // to avoid creation of new object on call to color()
 
     private int colorMode = RGB;
     private float v1Max = 255.f;
