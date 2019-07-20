@@ -60,10 +60,21 @@ public class DrawingTest extends PApplet
 
         drawPolygon();
         drawRotatedEllipses();
+
+        colorMode(RGB, 255);
+        stroke(0, 0, 255);
+        line(0, 200, 100, 300);
+
+        pushMatrix();
+        translate(200, 300, 10); // hack to put box face on xy-plane
+        fill(255);
+        box(20);
+        popMatrix();
     }
 
     public void drawRotatedEllipses()
     {
+        pushMatrix();
         translate(200, 50); 
 
         pushMatrix();
@@ -74,6 +85,7 @@ public class DrawingTest extends PApplet
 
         fill(0, 0, 255);
         ellipse(0, 0, 50, 25);
+        popMatrix();
     }
 
     public void drawPolygon()

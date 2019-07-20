@@ -99,6 +99,7 @@ public class PGraphics extends PImage
         camera = new OrthographicCamera(width, height);
         final boolean yDown = true;
         camera.setToOrtho(yDown, width, height);
+        //println("[PGraphics initialize()] camera near: " + camera.near + " far: " + camera.far);
 
         shapeRenderer.setProjectionMatrix(camera.combined);
         batch.setProjectionMatrix(camera.combined);
@@ -263,6 +264,49 @@ public class PGraphics extends PImage
             shapeRenderer.end();
         }
     }
+
+    public void line(float x1, float y1, float z1, float x2, float y2, float z2)
+    {
+        shapeRenderer.setColor(currentStrokeColor);
+        shapeRenderer.begin(ShapeType.Line);
+        shapeRenderer.line(x1, y1, z1, x2, y2, z2);
+        shapeRenderer.end();
+    }
+
+    public void line(float x1, float y1, float x2, float y2) {line(x1, y1, 0, x2, y2, 0);}
+
+    // TODO: implement strokeWidth
+    // - for line(), use libgdx rectLine() in the xy plane?
+    // - needs to work for ellipse() and rect()
+
+    public void box(float w, float h, float d)
+    {
+        pushMatrix();
+        translate(-w/2, -h/2, -d/2);
+
+        if (currentFillColor != null)
+        {
+            shapeRenderer.setColor(currentFillColor);
+            shapeRenderer.begin(ShapeType.Filled);
+            shapeRenderer.box(0, 0, 0, w, h, d);
+            shapeRenderer.end();
+        }
+
+        if (currentStrokeColor != null)
+        {
+            shapeRenderer.setColor(currentStrokeColor);
+            shapeRenderer.begin(ShapeType.Line);
+            shapeRenderer.box(0, 0, 0, w, h, d);
+            shapeRenderer.end();
+        }
+
+        popMatrix();
+
+        // TODO: check this with 3D / perspective camera
+        // TODO: refactor with ellipse()
+    }
+
+    public void box(float size) {box(size, size, size);}
 
     private void initializeShapeTypeMap()
     {
