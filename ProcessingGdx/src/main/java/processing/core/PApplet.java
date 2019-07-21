@@ -87,6 +87,12 @@ public class PApplet extends PGraphics implements InputProcessor
             this.key = ENTER;
             this.keyCode = 0;
         }
+        else if (gdxKeycode == Input.Keys.ESCAPE)
+        {
+            this.key = ESC;
+            this.keyCode = 0;
+        }
+        // TODO: missing ASCII keys
         else
         {
             key = CODED;
@@ -101,6 +107,10 @@ public class PApplet extends PGraphics implements InputProcessor
         translateGdxKeycodeToProcessing(keycode);
         if (keyCode == SHIFT) keyShiftDown = true;
         keyPressed();
+       
+        if (key == ESC)
+            Gdx.app.exit();
+
         return true;
     }
 
