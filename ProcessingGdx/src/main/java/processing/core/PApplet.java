@@ -61,7 +61,13 @@ public class PApplet extends PGraphics implements InputProcessor
 
         keyCodeMap.put(Input.Keys.SHIFT_RIGHT, SHIFT);
         keyCodeMap.put(Input.Keys.SHIFT_LEFT, SHIFT);
+
+        keyCodeMap.put(Input.Keys.LEFT, LEFT);
+        keyCodeMap.put(Input.Keys.RIGHT, RIGHT);
         keyCodeMap.put(Input.Keys.UP, UP);
+        keyCodeMap.put(Input.Keys.DOWN, DOWN);
+
+        // TODO: missing CODED keys?
     }
 
     private void translateGdxKeycodeToProcessing(int gdxKeycode)

@@ -16,7 +16,7 @@ public class Test3D extends PApplet
     @Override
     public void settings()
     {
-        size(400, 400);
+        size(800, 800);
     }
 
     @Override
@@ -28,6 +28,12 @@ public class Test3D extends PApplet
     public void draw()
     {
         background(0);
+
+        translate(-cameraX, -cameraY, -cameraZ);
+
+        cameraX += cameraVX;
+        cameraY += cameraVY;
+        cameraZ += cameraVZ;
 
         // draw RGB ellipses
 
@@ -97,7 +103,11 @@ public class Test3D extends PApplet
         for (int i=-4; i<=4; i++)
         {
             if (i==0) continue;
-            fill(i>0 ? red : white);
+            //fill(i>0 ? red : white);
+            if (i>0)
+                fill(red);
+            else
+                fill(255);
             pushMatrix();
             translate(25*i, 0, 0);
             box(i%4==0 ? 10 : 5);
@@ -129,11 +139,35 @@ public class Test3D extends PApplet
         }
     }
 
+    float cameraX = 100;
+    float cameraY = 50;
+    float cameraZ;
+
+    float cameraVX;
+    float cameraVY;
+    float cameraVZ;
+
+    // TODO: implement PVector, PMatrix
 
     @Override
     public void keyPressed()
     {
         println("processing keyPressed key: " + (int)key + " keyCode: " + keyCode); 
+
+        final float speed = 5.0f;
+
+        if (keyCode == RIGHT)
+            cameraVX = speed;
+        else if (keyCode == LEFT)
+            cameraVX = -speed;
+        else if (keyCode == UP)
+            cameraVY = speed;
+        else if (keyCode == DOWN)
+            cameraVY = -speed;
+        else if (key == 'a')
+            cameraVZ = speed;
+        else if (key == 'z')
+            cameraVZ = -speed;
     }
 
     @Override
@@ -146,6 +180,19 @@ public class Test3D extends PApplet
     public void keyReleased()
     {
         println("processing keyReleased key: " + (int)key + " keyCode: " + keyCode); 
+
+        if (keyCode == RIGHT)
+            cameraVX = 0;
+        else if (keyCode == LEFT)
+            cameraVX = 0;
+        else if (keyCode == UP)
+            cameraVY = 0;
+        else if (keyCode == DOWN)
+            cameraVY = 0;
+        else if (key == 'a')
+            cameraVZ = 0;
+        else if (key == 'z')
+            cameraVZ = 0;
     }
 }
 

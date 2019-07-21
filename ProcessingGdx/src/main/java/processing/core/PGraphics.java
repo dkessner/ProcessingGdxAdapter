@@ -234,6 +234,7 @@ public class PGraphics extends PImage
 
     public color color(float v1, float v2, float v3, float a)
     {
+        color tempColor = new color();
         setColor(tempColor, v1, v2, v3, a);
         return tempColor;
     }
@@ -443,8 +444,6 @@ public class PGraphics extends PImage
 
     final private Color strokeColor = new Color();
     private Color currentStrokeColor = strokeColor;
-
-    final private color tempColor = new color(); // to avoid creation of new object on call to color()
 
     private int colorMode = RGB;
     private float v1Max = 255.f;
