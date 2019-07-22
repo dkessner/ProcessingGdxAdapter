@@ -21,8 +21,7 @@ public class Test3D extends PApplet
 
     @Override
     public void setup()
-    {
-    }
+    {}
 
     @Override
     public void draw()
@@ -91,10 +90,10 @@ public class Test3D extends PApplet
 
     void drawTicks()
     {
-        final color red = color(255, 0, 0);
-        final color green = color(0, 255, 0);
-        final color blue = color(0, 0, 255);
-        final color white = color(255);
+        final int red = color(255, 0, 0);
+        final int green = color(0, 255, 0);
+        final int blue = color(0, 0, 255);
+        final int white = color(255);
 
         // red boxes on x-axis
 
@@ -103,11 +102,7 @@ public class Test3D extends PApplet
         for (int i=-4; i<=4; i++)
         {
             if (i==0) continue;
-            //fill(i>0 ? red : white);
-            if (i>0)
-                fill(red);
-            else
-                fill(255);
+            fill(i>0 ? red : white);
             pushMatrix();
             translate(25*i, 0, 0);
             box(i%4==0 ? 10 : 5);

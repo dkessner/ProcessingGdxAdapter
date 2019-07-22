@@ -204,14 +204,17 @@ public class PGraphics extends PImage
         currentFillColor = fillColor;
     }
 
-    public void fill(Color c)
+    public void fill(float v1, float v2, float v3) {fill(v1, v2, v3, aMax);}
+    public void fill(float v) {fill(v, v, v, aMax);} 
+
+    public void fill(int c) 
     {
-        fillColor.set(c);
-        currentFillColor = fillColor;
+        if (isARGB(c)) 
+            Color.argb8888ToColor(fillColor, c);
+        else
+            fill(c, c, c, aMax);
     }
 
-    public void fill(float v1, float v2, float v3) {fill(v1, v2, v3, aMax);}
-    public void fill(float v) {fill(v, v, v, aMax);}
     public void noFill() {currentFillColor = null;}
 
     public void stroke(float v1, float v2, float v3, float a)
@@ -227,20 +230,43 @@ public class PGraphics extends PImage
     }
 
     public void stroke(float v1, float v2, float v3) {stroke(v1, v2, v3, aMax);}
-    public void stroke(int v) {stroke(v, v, v, aMax);}
-    public void noStroke() {currentStrokeColor = null;}
+    public void stroke(float v) {stroke(v, v, v, aMax);}
 
-    public class color extends Color {} // implement Processing color type as a libgdx Color
-
-    public color color(float v1, float v2, float v3, float a)
+    public void stroke(int c)
     {
-        color tempColor = new color();
-        setColor(tempColor, v1, v2, v3, a);
-        return tempColor;
+        if (isARGB(c))
+            Color.argb8888ToColor(strokeColor, c);
+        else
+            stroke(c, c, c, aMax);
     }
 
-    public color color(float v1, float v2, float v3) {return color(v1, v2, v3, aMax);}
-    public color color(float v) {return color(v, v, v, aMax);}
+    public void noStroke() {currentStrokeColor = null;}
+
+    public int color(float v1, float v2, float v3, float a)
+    {
+        setColor(tempColor, v1, v2, v3, a);
+        return Color.argb8888(tempColor);
+    }
+
+    public int color(float v1, float v2, float v3) {return color(v1, v2, v3, aMax);}
+    public int color(float v) {return color(v, v, v, aMax);}
+
+    public int color(int c)
+    {
+        if (isARGB(c))
+            return c;
+        else
+            return color(c, c, c, aMax);
+    }
+
+    private boolean isARGB(int n)
+    {
+        // This function encapsulates the logic in Processing to determine
+        // whether a single int value should be interpreted as ARGB or as
+        // greyscale.
+
+        return ((n & 0xff000000) != 0) || (n > v1Max);
+    }
 
     private void setColor(Color c, float v1, float v2, float v3, float a)
     {
@@ -444,6 +470,8 @@ public class PGraphics extends PImage
 
     final private Color strokeColor = new Color();
     private Color currentStrokeColor = strokeColor;
+
+    final private Color tempColor = new Color();
 
     private int colorMode = RGB;
     private float v1Max = 255.f;
