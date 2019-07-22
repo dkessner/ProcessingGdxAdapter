@@ -52,7 +52,6 @@ public class Test3D extends PApplet
         ellipse(300, 300, 100, 50);
 
         pushMatrix();
-        translate(200, 200);
         drawAxes();
         popMatrix();
     }
@@ -134,8 +133,8 @@ public class Test3D extends PApplet
         }
     }
 
-    float cameraX = 100;
-    float cameraY = 50;
+    float cameraX;
+    float cameraY;
     float cameraZ;
 
     float cameraVX;

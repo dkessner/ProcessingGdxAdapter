@@ -22,6 +22,8 @@ import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Matrix4;
 
+import static java.lang.Math.*;
+
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.*;
 import static com.badlogic.gdx.graphics.Pixmap.*;
 import static com.badlogic.gdx.graphics.Camera.*;
@@ -101,20 +103,32 @@ public class PGraphics extends PImage
         final boolean yDown = true;
         camera.setToOrtho(yDown, width, height);
         //println("[PGraphics initialize()] camera near: " + camera.near + " far: " + camera.far);
-
         */
 
-        float aspectRatio = (float)width / height;
-        camera = new PerspectiveCamera(45, width, height);
+        // Processing defaults
 
-        camera.position.x = 200f;
-        camera.position.y = 200f;
-        camera.position.z = 500f;
-        camera.far = 1000f;
-        camera.lookAt(200, 200, 0);
+        final float fov = PI/3;
+        final float cameraZ = (float)(height / 2.0f / tan(fov/2));
+        final float aspectRatio = (float)width / height;
 
-        camera.update(true);
+        camera = new PerspectiveCamera(degrees(fov), width, height);
 
+        camera.position.x = width/2;
+        camera.position.y = height/2;
+        camera.position.z = cameraZ;
+        camera.near = cameraZ/10.0f;
+        camera.far = cameraZ*10.0f;
+
+        camera.lookAt(camera.position.x, camera.position.y, 0);
+
+        /*
+        // TODO: this flips y-axis; problem: this seems to flip x-axis as well 
+        Matrix4 transformation = new Matrix4();
+        transformation.setToScaling(1, -1, 1);
+        camera.transform(transformation);
+        */
+
+        camera.update();
 
         shapeRenderer.setProjectionMatrix(camera.combined);
         batch.setProjectionMatrix(camera.combined);
@@ -452,6 +466,10 @@ public class PGraphics extends PImage
 
     public void scale(float x, float y) {scale(x, y, 1);}
 
+    // misc
+
+    float degrees(float angle) {return angle/PI*180;}
+    float radians(float angleDegrees) {return angleDegrees*PI/180;}
     
     // libgdx implementation 
 
