@@ -171,11 +171,13 @@ public class PApplet extends PGraphics implements InputProcessor
     
     // PApplet API
 
-    public void size(int width, int height)
+    public void size(int width, int height, String rendererType)
     {
         Gdx.graphics.setWindowedMode(width, height);
-        super.initialize(width, height);
+        super.initialize(width, height, rendererType);
     }
+
+    public void size(int width, int height) {size(width, height, P2D);}
 
     // event handling
 

@@ -70,14 +70,16 @@ public class PGraphics extends PImage
      * backing libgdx FrameBuffer object.
      *
      */
-    public PGraphics(int width, int height)
+    public PGraphics(int width, int height, String rendererType)
     {
         this(); 
-        initialize(width, height);
+        initialize(width, height, rendererType);
 
         final boolean hasDepth = false;
         fb = new FrameBuffer(Format.RGBA8888, width, height, hasDepth);
     }
+
+    public PGraphics(int width, int height) {this(width, height, P2D);}
 
     /**
      * Initialization, which can be called during or after construction.
@@ -88,7 +90,7 @@ public class PGraphics extends PImage
      *      - (0,0) top right
      *      - (width, height) bottom left
      */
-    void initialize(int width, int height) // package-private
+    void initialize(int width, int height, String rendererType) // package-private
     {
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
@@ -100,13 +102,10 @@ public class PGraphics extends PImage
         this.width = width;
         this.height = height;
 
-        OrthographicCamera camera = new OrthographicCamera(width, height);
-        final boolean yDown = true;
-        camera.setToOrtho(yDown, width, height);
-        this.camera = camera;
-        //println("[PGraphics initialize()] camera near: " + camera.near + " far: " + camera.far);
-        
-        //perspective();
+        if (rendererType == P3D) // string comparison by reference ok
+            perspective();
+        else
+            ortho();
 
         shapeRenderer.setProjectionMatrix(camera.combined);
         batch.setProjectionMatrix(camera.combined);
@@ -123,9 +122,8 @@ public class PGraphics extends PImage
     {
         shapeRenderer.identity();
 
-        // TODO: switch on camera type
-
-        scale(1, -1, 1);
+        if (camera instanceof PerspectiveCamera)
+            scale(1, -1, 1);
     }
 
     // PGraphics API
@@ -452,9 +450,21 @@ public class PGraphics extends PImage
     // camera
     //
 
-    public void ortho() {}
+    public void ortho() 
+    {
+        OrthographicCamera camera = new OrthographicCamera(width, height);
+        this.camera = camera;
+
+        final boolean yDown = true;
+        camera.setToOrtho(yDown, width, height);
+
+        camera.update();
+        updateProjectionMatrices();
+    }
+
+    // TODO: ortho(left, right, bottom, top, near, far)
         
-    public float cameraZ(float fov, float height)
+    public static float cameraZ(float fov, float height)
     {
        return (float)(height / 2.0f / tan(fov/2));
     }
@@ -473,10 +483,13 @@ public class PGraphics extends PImage
         camera.lookAt(camera.position.x, camera.position.y, 0);
 
         camera.update();
+        updateProjectionMatrices();
     }
 
     public void perspective()
     {
+        // defaults from Processing
+
         final float fov = PI/3;
         final float aspect = (float)width / height;
 
@@ -485,6 +498,12 @@ public class PGraphics extends PImage
         final float far = cameraZ*10.0f;
 
         perspective(fov, aspect, near, far);
+    }
+
+    private void updateProjectionMatrices()
+    {
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        batch.setProjectionMatrix(camera.combined);
     }
 
     //

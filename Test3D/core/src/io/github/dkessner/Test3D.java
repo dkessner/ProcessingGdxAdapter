@@ -16,7 +16,7 @@ public class Test3D extends PApplet
     @Override
     public void settings()
     {
-        size(800, 600);
+        size(800, 600, P3D);
     }
 
     @Override
@@ -162,6 +162,10 @@ public class Test3D extends PApplet
             cameraVZ = -speed;
         else if (key == 'z')
             cameraVZ = speed;
+        else if (key == 'o')
+            ortho();
+        else if (key == 'p')
+            perspective();
     }
 
     @Override
