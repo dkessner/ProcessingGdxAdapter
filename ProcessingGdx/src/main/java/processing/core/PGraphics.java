@@ -12,6 +12,7 @@ import java.util.Stack;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -99,36 +100,13 @@ public class PGraphics extends PImage
         this.width = width;
         this.height = height;
 
-        /*        camera = new OrthographicCamera(width, height);
+        OrthographicCamera camera = new OrthographicCamera(width, height);
         final boolean yDown = true;
         camera.setToOrtho(yDown, width, height);
+        this.camera = camera;
         //println("[PGraphics initialize()] camera near: " + camera.near + " far: " + camera.far);
-        */
-
-        // Processing defaults
-
-        final float fov = PI/3;
-        final float cameraZ = (float)(height / 2.0f / tan(fov/2));
-        final float aspectRatio = (float)width / height;
-
-        camera = new PerspectiveCamera(degrees(fov), width, height);
-
-        camera.position.x = width/2;
-        camera.position.y = height/2;
-        camera.position.z = cameraZ;
-        camera.near = cameraZ/10.0f;
-        camera.far = cameraZ*10.0f;
-
-        camera.lookAt(camera.position.x, camera.position.y, 0);
-
-        /*
-        // TODO: this flips y-axis; problem: this seems to flip x-axis as well 
-        Matrix4 transformation = new Matrix4();
-        transformation.setToScaling(1, -1, 1);
-        camera.transform(transformation);
-        */
-
-        camera.update();
+        
+        //perspective();
 
         shapeRenderer.setProjectionMatrix(camera.combined);
         batch.setProjectionMatrix(camera.combined);
@@ -144,6 +122,10 @@ public class PGraphics extends PImage
     /*package-private*/ void beforeDraw()
     {
         shapeRenderer.identity();
+
+        // TODO: switch on camera type
+
+        scale(1, -1, 1);
     }
 
     // PGraphics API
@@ -466,7 +448,48 @@ public class PGraphics extends PImage
 
     public void scale(float x, float y) {scale(x, y, 1);}
 
+    //
+    // camera
+    //
+
+    public void ortho() {}
+        
+    public float cameraZ(float fov, float height)
+    {
+       return (float)(height / 2.0f / tan(fov/2));
+    }
+
+    public void perspective(float fov, float aspect, float near, float far)
+    {
+        camera = new PerspectiveCamera(degrees(fov), aspect, 1);
+
+        camera.position.x = width/2;
+        camera.position.y = -height/2;
+        camera.position.z = cameraZ(fov, height);
+
+        camera.near = near;
+        camera.far = far;
+
+        camera.lookAt(camera.position.x, camera.position.y, 0);
+
+        camera.update();
+    }
+
+    public void perspective()
+    {
+        final float fov = PI/3;
+        final float aspect = (float)width / height;
+
+        final float cameraZ = cameraZ(fov, height);
+        final float near = cameraZ/10.0f;
+        final float far = cameraZ*10.0f;
+
+        perspective(fov, aspect, near, far);
+    }
+
+    //
     // misc
+    //
 
     float degrees(float angle) {return angle/PI*180;}
     float radians(float angleDegrees) {return angleDegrees*PI/180;}
@@ -474,10 +497,7 @@ public class PGraphics extends PImage
     // libgdx implementation 
 
     private FrameBuffer fb;
-
-    //private OrthographicCamera camera;
-    private PerspectiveCamera camera;
-
+    private Camera camera;
     private ShapeRenderer shapeRenderer;
     private SpriteBatch batch;
 
