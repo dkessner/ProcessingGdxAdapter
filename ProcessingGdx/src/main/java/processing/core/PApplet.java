@@ -10,6 +10,7 @@ package processing.core;
 
 import java.util.HashMap;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -178,6 +179,15 @@ public class PApplet extends PGraphics implements InputProcessor
     }
 
     public void size(int width, int height) {size(width, height, P2D);}
+
+    public void fullScreen(String rendererType)
+    {
+        Graphics.DisplayMode displayMode = Gdx.graphics.getDisplayMode();
+        Gdx.graphics.setFullscreenMode(displayMode);
+        super.initialize(displayMode.width, displayMode.height, rendererType);
+    }
+
+    public void fullScreen() {fullScreen(P2D);}
 
     // event handling
 

@@ -191,6 +191,12 @@ public class Test3D extends PApplet
             cameraVZ = 0;
         else if (key == 'z')
             cameraVZ = 0;
+        else if (key == 'f')
+            fullScreen(P3D);
+        else if (key == 'w')
+            size(800, 600, P3D);
+
+        // TODO: weirdness with ortho/perspective switching after fullScreen/size switch on html 
     }
 }
 
