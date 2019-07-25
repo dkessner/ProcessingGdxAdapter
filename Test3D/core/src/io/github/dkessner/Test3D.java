@@ -9,6 +9,7 @@ package io.github.dkessner;
 
 
 import processing.core.*;
+import java.util.*;
 
 
 public class Test3D extends PApplet
@@ -21,7 +22,17 @@ public class Test3D extends PApplet
 
     @Override
     public void setup()
-    {}
+    {
+    
+        points = new ArrayList<PVector>();
+
+        PVector current = new PVector(-100, -100, -100);
+        while (current.mag() <= 200)
+        {
+            points.add(current.copy());
+            current.add(random(5), random(5), random(5));
+        }
+    }
 
     @Override
     public void draw()
@@ -53,6 +64,7 @@ public class Test3D extends PApplet
 
         pushMatrix();
         drawAxes();
+        drawPoints();
         popMatrix();
     }
 
@@ -85,7 +97,6 @@ public class Test3D extends PApplet
         fill(0, 255, 0);
         box(20);
     }
-
 
     void drawTicks()
     {
@@ -129,6 +140,21 @@ public class Test3D extends PApplet
             pushMatrix();
             translate(0, 0, i*25);
             box(i%4==0 ? 10 : 5);
+            popMatrix();
+        }
+    }
+
+    void drawPoints()
+    {
+        final int c1 = color(0xff226de5);
+        final int c2 = color(0xff50e550);
+
+        for (PVector p : points)
+        {
+            pushMatrix();
+            translate(p.x, p.y, p.z);
+            fill(lerpColor(c1, c2, (p.x+100)/200));
+            box(3);
             popMatrix();
         }
     }
@@ -198,6 +224,8 @@ public class Test3D extends PApplet
 
         // TODO: weirdness with ortho/perspective switching after fullScreen/size switch on html 
     }
+
+    ArrayList<PVector> points;
 }
 
 

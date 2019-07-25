@@ -510,8 +510,42 @@ public class PGraphics extends PImage
     // misc
     //
 
-    float degrees(float angle) {return angle/PI*180;}
-    float radians(float angleDegrees) {return angleDegrees*PI/180;}
+    public static float degrees(float angle) {return angle/PI*180;}
+    public static float radians(float angleDegrees) {return angleDegrees*PI/180;}
+
+    public static float sin(float value) {return (float)Math.sin(value);}
+    public static float cos(float value) {return (float)Math.sin(value);}
+    public static float sqrt(float value) {return (float)Math.sqrt(value);}
+
+    public static float lerp(float start, float stop, float amount)
+    {
+        return start + amount*(stop-start);
+    }
+
+    public static int alpha(int c) {return c>>24 & 0xff;}
+    public static int red(int c) {return c>>16 & 0xff;}
+    public static int green(int c) {return c>>8 & 0xff;}
+    public static int blue(int c) {return c & 0xff;}
+
+    private static int argb(int r, int g, int b, int a) {return a<<24 | r<<16 | g<<8 | b;}
+
+    public static int lerpColor(int c1, int c2, float amount)
+    {
+        return argb((int)lerp(red(c1), red(c2), amount),
+                    (int)lerp(green(c1), green(c2), amount),
+                    (int)lerp(blue(c1), blue(c2), amount),
+                    (int)lerp(alpha(c1), alpha(c2), amount));
+    }
+
+    public static float random(float low, float high)
+    {
+        return (float)(low + Math.random() * (high-low));
+    }
+
+    public static float random(float high) {return random(0, high);}
+
+    public static float max(float a, float b) {return Math.max(a, b);}
+    public static float max(float a, float b, float c) {return max(max(a, b),c);}
     
     // libgdx implementation 
 
@@ -528,7 +562,7 @@ public class PGraphics extends PImage
     final private Color strokeColor = new Color();
     private Color currentStrokeColor = strokeColor;
 
-    final private Color tempColor = new Color();
+    final private static Color tempColor = new Color(); // temporary storage to avoid memory allocations
 
     private int colorMode = RGB;
     private float v1Max = 255.f;
@@ -539,7 +573,6 @@ public class PGraphics extends PImage
     // immediate mode rendering
 
     HashMap<Integer, Integer> shapeTypeMap;
-
 }
 
 
