@@ -371,6 +371,11 @@ public class PGraphics extends PImage
     {
         shapeTypeMap = new HashMap<Integer, Integer>();
         shapeTypeMap.put(POLYGON, GL20.GL_TRIANGLE_FAN);
+        shapeTypeMap.put(LINE_STRIP, GL20.GL_LINE_STRIP);
+        shapeTypeMap.put(LINE_LOOP, GL20.GL_LINE_LOOP);
+        shapeTypeMap.put(POINTS, GL20.GL_POINTS);
+        shapeTypeMap.put(TRIANGLE_STRIP, GL20.GL_TRIANGLE_STRIP);
+        
         // TODO: add shape types
     }
 
@@ -382,8 +387,13 @@ public class PGraphics extends PImage
         if (!shapeTypeMap.containsKey(kind))
             throw new RuntimeException("[PGraphics.beginShape()] Invalid shape type.");
 
-        r.begin(camera.combined, shapeTypeMap.get(kind));
+        Matrix4 transformation = camera.combined.cpy();
+        transformation.mul(shapeRenderer.getTransformMatrix());
+
+        r.begin(transformation, shapeTypeMap.get(kind));
     }
+
+    public void beginShape() {beginShape(LINE_STRIP);} // TODO: Processing default behavior
 
     public void endShape()
     {
@@ -400,6 +410,8 @@ public class PGraphics extends PImage
 
         if (currentFillColor != null)
             r.color(currentFillColor);
+        else if (currentStrokeColor != null)
+            r.color(currentStrokeColor);
 
         r.vertex(x, y, z);
     }

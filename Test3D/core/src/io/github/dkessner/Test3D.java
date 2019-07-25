@@ -23,14 +23,34 @@ public class Test3D extends PApplet
     @Override
     public void setup()
     {
-    
+        initializePoints();
+    }
+
+    private void initializePoints()
+    {
         points = new ArrayList<PVector>();
+        points2 = new ArrayList<PVector>();
+        points3 = new ArrayList<PVector>();
 
         PVector current = new PVector(-100, -100, -100);
         while (current.mag() <= 200)
         {
             points.add(current.copy());
             current.add(random(5), random(5), random(5));
+        }
+
+        current.set(-100, 100, 100);
+        while (current.mag() <= 200)
+        {
+            points2.add(current.copy());
+            current.add(random(20), random(-20, 0), random(-20, 0));
+        }
+
+        current.set(100, -100, 100);
+        while (current.mag() <= 200)
+        {
+            points3.add(current.copy());
+            current.add(random(-5, 0), random(5), random(-3, -2));
         }
     }
 
@@ -65,6 +85,8 @@ public class Test3D extends PApplet
         pushMatrix();
         drawAxes();
         drawPoints();
+        drawPoints2();
+        drawPoints3();
         popMatrix();
     }
 
@@ -159,6 +181,49 @@ public class Test3D extends PApplet
         }
     }
 
+    void drawPoints2()
+    {
+        final int c1 = color(0xfff77111);
+        final int c2 = color(0xffcfea20);
+
+        noFill();
+        beginShape(TRIANGLE_STRIP);
+        for (PVector p : points2)
+        {
+            stroke(lerpColor(c1, c2, (p.x+100)/200));
+            vertex(p.x, p.y, p.z);
+        }
+        endShape();
+    }
+
+
+    void drawPoints3()
+    {
+        final int c1 = color(0xff000000);
+        final int c2 = color(0xff888888);
+        final int n = 20;
+
+        for (int i=0; i<points3.size()-1; i++)
+        {
+            PVector p1 = points3.get(i);
+            PVector p2 = points3.get(i+1);
+            final float r = 10;
+
+            fill(lerpColor(c1, c2, (p1.x+100)/200));
+            stroke(200);
+            beginShape(LINE_LOOP);
+            for (int j=0; j<=n; j++)
+            {
+                float t = 2*PI*j/n;
+                vertex(p1.x + r*cos(t), p1.y + r*sin(t), p1.z);
+                vertex(p2.x + r*cos(t), p2.y + r*sin(t), p2.z);
+            }
+            endShape();
+        }
+    }
+
+
+
     float cameraX;
     float cameraY;
     float cameraZ;
@@ -226,6 +291,8 @@ public class Test3D extends PApplet
     }
 
     ArrayList<PVector> points;
+    ArrayList<PVector> points2;
+    ArrayList<PVector> points3;
 }
 
 
