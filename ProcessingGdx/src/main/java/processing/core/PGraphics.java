@@ -7,8 +7,7 @@
 
 package processing.core;
 
-import java.util.HashMap;
-import java.util.Stack;
+import java.util.*;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -379,43 +378,126 @@ public class PGraphics extends PImage
         // TODO: add shape types
     }
 
+    class Vertex
+    {
+        public float x;
+        public float y;
+        public float z;
+
+        public float u;
+        public float v;
+
+        public Color fillColor;
+        public Color strokeColor;
+
+        public float nx;
+        public float ny;
+        public float nz;
+
+        public Vertex(float x, float y, float z)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+
+        public void setFillColor(Color c)
+        {
+            fillColor = (c == null) ? c : c.cpy();
+        }
+        
+        public void setStrokeColor(Color c)
+        {
+            strokeColor = (c == null) ? c : c.cpy();
+        }
+        
+        public void setTexCoord(float u, float v)
+        {
+            this.u = u;
+            this.v = v;
+        }
+
+        public void setNormal(float nx, float ny, float nz)
+        {
+            this.nx = nx;
+            this.ny = ny;
+            this.nz = nz;
+        }
+    }
+
+    private ArrayList<Vertex> vertices = new ArrayList<Vertex>();
+    private int shapeType = GL20.GL_TRIANGLE_FAN;
+
     public void beginShape(int kind)
     {
-        ImmediateModeRenderer r = shapeRenderer.getRenderer();
-        if (r == null) return;
+        vertices.clear();
 
         if (!shapeTypeMap.containsKey(kind))
             throw new RuntimeException("[PGraphics.beginShape()] Invalid shape type.");
 
+        shapeType = shapeTypeMap.get(kind);
+
+
+    }
+
+    public void beginShape() {beginShape(POLYGON);}
+
+    public void endShape(int close)
+    {
+        drawShape(close == CLOSE);                
+    }
+
+    public void endShape() {endShape(0);}
+
+    private void drawShape(boolean close)
+    {
+        ImmediateModeRenderer r = shapeRenderer.getRenderer();
+        if (r == null) return;
+
         Matrix4 transformation = camera.combined.cpy();
         transformation.mul(shapeRenderer.getTransformMatrix());
 
-        r.begin(transformation, shapeTypeMap.get(kind));
-    }
-
-    public void beginShape() {beginShape(LINE_STRIP);} // TODO: Processing default behavior
-
-    public void endShape()
-    {
-        ImmediateModeRenderer r = shapeRenderer.getRenderer();
-        if (r == null) return;
-
-        r.end();
-    }
-
-    public void vertex(float x, float y, float z)
-    {
-        ImmediateModeRenderer r = shapeRenderer.getRenderer();
-        if (r == null) return;
+        // TODO: Processing default behavior
 
         if (currentFillColor != null)
-            r.color(currentFillColor);
-        else if (currentStrokeColor != null)
-            r.color(currentStrokeColor);
+        {
+            r.begin(transformation, shapeType);
+            for (Vertex v : vertices)
+            {
+                r.color(v.fillColor);
+                r.vertex(v.x, v.y, v.z);
+                r.texCoord(v.u, v.v);
+                r.normal(v.nx, v.ny, v.nz);
+            }
 
-        r.vertex(x, y, z);
+            r.end();
+        }
+
+        if (shapeType == GL20.GL_TRIANGLE_FAN && currentStrokeColor != null)
+        {
+            r.begin(transformation, close ? GL20.GL_LINE_LOOP : GL20.GL_LINE_STRIP);
+            for (Vertex v : vertices)
+            {
+                r.color(v.strokeColor);
+                r.vertex(v.x, v.y, v.z);
+                r.texCoord(v.u, v.v);
+                r.normal(v.nx, v.ny, v.nz);
+            }
+
+            r.end();
+        }
     }
 
+    public void vertex(float x, float y, float z, float u, float v)
+    {
+        Vertex vertex = new Vertex(x, y, z);
+        vertex.setFillColor(currentFillColor);
+        vertex.setStrokeColor(currentStrokeColor);
+        vertex.setTexCoord(u, v);
+        vertices.add(vertex);
+    }
+
+    public void vertex(float x, float y, float z) {vertex(x, y, z, 0, 0);}
     public void vertex(float x, float y) {vertex(x, y, 0);}
 
     // TODO: texture(u, v)

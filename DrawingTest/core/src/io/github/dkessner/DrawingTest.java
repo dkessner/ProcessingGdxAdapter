@@ -61,7 +61,7 @@ public class DrawingTest extends PApplet
 
         image(pg, 0, 300, 100, 100);
 
-        drawPolygon();
+        drawPolygons();
         drawRotatedEllipses();
 
         colorMode(RGB, 255);
@@ -91,17 +91,23 @@ public class DrawingTest extends PApplet
         popMatrix();
     }
 
-    public void drawPolygon()
+    public void drawPolygons()
     {
+        //noFill();
+
+        //stroke(255);
+        // TODO: Processing default behavior
+
+
         colorMode(RGB, 255);
-        beginShape(POLYGON);
+        beginShape();
         fill(255, 0, 0);
         vertex(300, 200);
         fill(0, 255, 0);
         vertex(400, 200);
         fill(0, 0, 255);
         vertex(350, 250);
-        endShape();
+        endShape(CLOSE);
     }
 
     public void drawOffscreen()
