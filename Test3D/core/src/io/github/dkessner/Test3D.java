@@ -86,7 +86,7 @@ public class Test3D extends PApplet
         drawAxes();
         drawPoints();
         drawPoints2();
-        drawPoints3();
+        //drawPoints3();
         popMatrix();
     }
 
@@ -187,7 +187,7 @@ public class Test3D extends PApplet
         final int c2 = color(0xffcfea20);
 
         noFill();
-        beginShape(TRIANGLE_STRIP);
+        beginShape();
         for (PVector p : points2)
         {
             stroke(lerpColor(c1, c2, (p.x+100)/200));
