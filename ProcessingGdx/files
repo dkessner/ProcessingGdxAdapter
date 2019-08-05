@@ -1,4 +1,11 @@
-./src/test/java/processing/core/EventHandlingTest.java
-./src/main/java/processing/core/PApplet.java
-./src/main/java/processing/core/PGraphics.java
-./src/main/java/processing/core/PImage.java
+./src/test/java/io/github/dkessner/LibraryTest.java
+./src/test/java/io/github/dkessner/EventHandlingTest.java
+./src/main/java/io/github/dkessner/PVector.java
+./src/main/java/io/github/dkessner/PImage.java
+./src/main/java/io/github/dkessner/PMatrix.java
+./src/main/java/io/github/dkessner/PConstants.java
+./src/main/java/io/github/dkessner/PApplet.java
+./src/main/java/io/github/dkessner/PMatrix3D.java
+./src/main/java/io/github/dkessner/PGraphics.java
+./src/main/java/io/github/dkessner/PMatrix2D.java
+./src/main/java/io/github/dkessner/package-info.java

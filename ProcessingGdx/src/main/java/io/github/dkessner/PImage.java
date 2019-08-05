@@ -5,8 +5,7 @@
 //
 
 
-package processing.core;
-
+package io.github.dkessner;
 
 import com.badlogic.gdx.graphics.Texture;
 

@@ -22,7 +22,8 @@
   Boston, MA  02111-1307  USA
 */
 
-package processing.core;
+package io.github.dkessner; // PConstants unchanged except for package declaration
+//package processing.core;
 
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;

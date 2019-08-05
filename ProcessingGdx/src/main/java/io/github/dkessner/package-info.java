@@ -14,5 +14,5 @@
  * class PApplet extends PGraphics;
  * ```
  */
-package processing.core;
+package io.github.dkessner;
 

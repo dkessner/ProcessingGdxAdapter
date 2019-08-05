@@ -22,12 +22,13 @@
   Boston, MA  02111-1307  USA
  */
 
-package processing.core;
+package io.github.dkessner; // PVector unchanged except for package declaration
+//package processing.core;
 
 import java.io.Serializable;
 
-import processing.core.PApplet;
-import processing.core.PConstants;
+//import processing.core.PApplet;
+//import processing.core.PConstants;
 
 /**
  * ( begin auto-generated from PVector.xml )

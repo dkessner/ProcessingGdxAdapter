@@ -8,9 +8,6 @@
 package io.github.dkessner;
 
 
-import processing.core.*;
-
-
 // TODO: default to ortho camera for P2D, perspective for P3D; implement perspective()
 
 

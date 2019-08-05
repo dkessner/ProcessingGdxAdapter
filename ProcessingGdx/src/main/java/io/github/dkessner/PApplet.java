@@ -5,7 +5,7 @@
 //
 
 
-package processing.core;
+package io.github.dkessner;
 
 
 import java.util.HashMap;

@@ -4,14 +4,12 @@
 // Darren Kessner
 //
 
-
-package processing.core;
-
+package io.github.dkessner;
 
 import java.util.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import static processing.core.PConstants.*;
+import static io.github.dkessner.PConstants.*;
 import com.badlogic.gdx.Input;
 
 
