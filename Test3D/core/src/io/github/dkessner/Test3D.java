@@ -86,7 +86,7 @@ public class Test3D extends PApplet
         drawAxes();
         drawPoints();
         drawPoints2();
-        //drawPoints3();
+        drawPoints3();
         popMatrix();
     }
 
@@ -211,7 +211,7 @@ public class Test3D extends PApplet
 
             fill(lerpColor(c1, c2, (p1.x+100)/200));
             stroke(200);
-            beginShape(LINE_LOOP);
+            beginShape();
             for (int j=0; j<=n; j++)
             {
                 float t = 2*PI*j/n;
@@ -222,8 +222,6 @@ public class Test3D extends PApplet
         }
     }
 
-
-
     float cameraX;
     float cameraY;
     float cameraZ;
@@ -231,8 +229,6 @@ public class Test3D extends PApplet
     float cameraVX;
     float cameraVY;
     float cameraVZ;
-
-    // TODO: implement PVector, PMatrix
 
     @Override
     public void keyPressed()
