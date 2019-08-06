@@ -8,7 +8,6 @@
 package io.github.dkessner;
 
 
-import processing.core.*;
 import com.badlogic.gdx.ApplicationAdapter;
 
 
