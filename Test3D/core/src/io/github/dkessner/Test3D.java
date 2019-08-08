@@ -221,6 +221,8 @@ public class Test3D extends PApplet
         }
     }
 
+    private boolean shift = false;
+
     @Override
     public void keyPressed()
     {
@@ -229,14 +231,36 @@ public class Test3D extends PApplet
         final float speed = 5.0f;
         final float angularSpeed = 1.2f; // degrees (libgdx)
 
-        if (keyCode == RIGHT)
-            cameraYawVelocity = -angularSpeed;
+        if (keyCode == SHIFT)
+            shift = true;
+        else if (keyCode == RIGHT)
+        {
+            if (shift)
+                moveCameraSideways(speed);
+            else
+                cameraYawVelocity = -angularSpeed;
+        }
         else if (keyCode == LEFT)
-            cameraYawVelocity = angularSpeed;
+        {
+            if (shift)
+                moveCameraSideways(-speed);
+            else
+                cameraYawVelocity = angularSpeed;
+        }
         else if (keyCode == UP)
-            cameraPitchVelocity = angularSpeed;
+        {
+            if (shift)
+                moveCameraUpDown(speed);
+            else
+                cameraPitchVelocity = angularSpeed;
+        }
         else if (keyCode == DOWN)
-            cameraPitchVelocity = -angularSpeed;
+        {
+            if (shift)
+                moveCameraUpDown(-speed);
+            else
+                cameraPitchVelocity = -angularSpeed;
+        }
         else if (key == 'w')
             moveCamera(speed);
         else if (key == 's')
@@ -285,6 +309,13 @@ public class Test3D extends PApplet
         cameraVelocity.scl(speed);
     }
 
+    public void moveCameraUpDown(float speed)
+    {
+        // libgdx
+        cameraVelocity.set(camera.up);
+        cameraVelocity.scl(speed);
+    }
+
     @Override
     public void keyTyped()
     {
@@ -296,14 +327,36 @@ public class Test3D extends PApplet
     {
         println("processing keyReleased key: " + (int)key + " keyCode: " + keyCode); 
 
-        if (keyCode == RIGHT)
-            cameraYawVelocity = 0;
+        if (keyCode == SHIFT)
+            shift = false;
+        else if (keyCode == RIGHT)
+        {
+            if (shift) 
+                moveCameraSideways(0);
+            else
+                cameraYawVelocity = 0;
+        }
         else if (keyCode == LEFT)
-            cameraYawVelocity = 0;
+        {
+            if (shift)
+                moveCameraSideways(0);
+            else
+                cameraYawVelocity = 0;
+        }
         else if (keyCode == UP)
-            cameraPitchVelocity = 0;
+        {
+            if (shift)
+                moveCameraUpDown(0);
+            else
+                cameraPitchVelocity = 0;
+        }
         else if (keyCode == DOWN)
-            cameraPitchVelocity = 0;
+        {
+            if (shift)
+                moveCameraUpDown(0);
+            else
+                cameraPitchVelocity = 0;
+        }
         else if (key == 'w')
             moveCamera(0);
         else if (key == 's')
@@ -314,8 +367,7 @@ public class Test3D extends PApplet
             moveCameraSideways(0);
         else if (key == 'f')
             fullScreen(P3D);
-
-        else if (key == 'w')
+        else if (key == 'r')
             size(800, 600, P3D);
 
         // TODO: weirdness with ortho/perspective switching after fullScreen/size switch on html 
