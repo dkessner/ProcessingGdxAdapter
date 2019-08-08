@@ -5,9 +5,9 @@ project=Test3D
 
 files="
 $project/core/src/io/github/dkessner/$project.java 
-ProcessingGdx/src/main/java/processing/core/PApplet.java
-ProcessingGdx/src/main/java/processing/core/PGraphics.java
-ProcessingGdx/src/main/java/processing/core/PImage.java
+ProcessingGdx/src/main/java/io/github/dkessner/PApplet.java
+ProcessingGdx/src/main/java/io/github/dkessner/PGraphics.java
+ProcessingGdx/src/main/java/io/github/dkessner/PImage.java
 "
 
 for f in $files

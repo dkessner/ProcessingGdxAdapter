@@ -10,6 +10,8 @@ package io.github.dkessner;
 
 import java.util.*;
 
+import com.badlogic.gdx.math.*;
+
 
 public class Test3D extends PApplet
 {
@@ -58,11 +60,9 @@ public class Test3D extends PApplet
     {
         background(0);
 
-        translate(-cameraX, -cameraY, -cameraZ);
+        resetMatrix();
 
-        cameraX += cameraVX;
-        cameraY += cameraVY;
-        cameraZ += cameraVZ;
+        updateCamera();
 
         // draw RGB ellipses
 
@@ -221,37 +221,68 @@ public class Test3D extends PApplet
         }
     }
 
-    float cameraX;
-    float cameraY;
-    float cameraZ;
-
-    float cameraVX;
-    float cameraVY;
-    float cameraVZ;
-
     @Override
     public void keyPressed()
     {
         println("processing keyPressed key: " + (int)key + " keyCode: " + keyCode); 
 
         final float speed = 5.0f;
+        final float angularSpeed = 1.2f; // degrees (libgdx)
 
         if (keyCode == RIGHT)
-            cameraVX = speed;
+            cameraYawVelocity = -angularSpeed;
         else if (keyCode == LEFT)
-            cameraVX = -speed;
+            cameraYawVelocity = angularSpeed;
         else if (keyCode == UP)
-            cameraVY = -speed;
+            cameraPitchVelocity = angularSpeed;
         else if (keyCode == DOWN)
-            cameraVY = speed;
+            cameraPitchVelocity = -angularSpeed;
+        else if (key == 'w')
+            moveCamera(speed);
+        else if (key == 's')
+            moveCamera(-speed);
         else if (key == 'a')
-            cameraVZ = -speed;
-        else if (key == 'z')
-            cameraVZ = speed;
+            moveCameraSideways(-speed);
+        else if (key == 'd')
+            moveCameraSideways(speed);
         else if (key == 'o')
             ortho();
         else if (key == 'p')
             perspective();
+    }
+
+    public void updateCamera()
+    {
+        // libgdx
+
+        if (!cameraVelocity.isZero() || cameraYawVelocity != 0 || cameraPitchVelocity != 0)
+        {
+            camera.translate(cameraVelocity);
+
+            camera.rotate(camera.up, cameraYawVelocity);
+
+            Vector3 pitchAxis = camera.direction.cpy();
+            pitchAxis.crs(camera.up);
+            camera.rotate(pitchAxis, cameraPitchVelocity);
+
+            camera.update();
+            updateProjectionMatrices();
+        }
+    }
+
+    public void moveCamera(float speed)
+    {
+        // libgdx
+        cameraVelocity.set(camera.direction);
+        cameraVelocity.scl(speed);
+    }
+
+    public void moveCameraSideways(float speed)
+    {
+        // libgdx
+        cameraVelocity.set(camera.direction);
+        cameraVelocity.crs(camera.up);
+        cameraVelocity.scl(speed);
     }
 
     @Override
@@ -266,19 +297,24 @@ public class Test3D extends PApplet
         println("processing keyReleased key: " + (int)key + " keyCode: " + keyCode); 
 
         if (keyCode == RIGHT)
-            cameraVX = 0;
+            cameraYawVelocity = 0;
         else if (keyCode == LEFT)
-            cameraVX = 0;
+            cameraYawVelocity = 0;
         else if (keyCode == UP)
-            cameraVY = 0;
+            cameraPitchVelocity = 0;
         else if (keyCode == DOWN)
-            cameraVY = 0;
+            cameraPitchVelocity = 0;
+        else if (key == 'w')
+            moveCamera(0);
+        else if (key == 's')
+            moveCamera(0);
         else if (key == 'a')
-            cameraVZ = 0;
-        else if (key == 'z')
-            cameraVZ = 0;
+            moveCameraSideways(0);
+        else if (key == 'd')
+            moveCameraSideways(0);
         else if (key == 'f')
             fullScreen(P3D);
+
         else if (key == 'w')
             size(800, 600, P3D);
 
@@ -288,6 +324,12 @@ public class Test3D extends PApplet
     ArrayList<PVector> points;
     ArrayList<PVector> points2;
     ArrayList<PVector> points3;
+
+    // use libgdx Camera for convenience
+
+    Vector3 cameraVelocity = new Vector3();
+    float cameraYawVelocity;
+    float cameraPitchVelocity;
 }
 
 

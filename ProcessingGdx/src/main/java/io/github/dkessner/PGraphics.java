@@ -517,6 +517,11 @@ public class PGraphics extends PImage
 
     private Stack<Matrix4> matrixStack = new Stack<Matrix4>();
 
+    public void resetMatrix()
+    {
+        shapeRenderer.setProjectionMatrix(camera.combined);
+    }
+
     public void translate(float x, float y, float z)
     {
         shapeRenderer.translate(x, y, z);     
@@ -524,7 +529,15 @@ public class PGraphics extends PImage
 
     public void translate(float x, float y) {translate(x, y, 0);}
 
-    // TODO: rotateX, rotateY
+    public void rotateX(float angle)
+    {
+        shapeRenderer.rotate(1, 0, 0, angle*180/PI);
+    }
+
+    public void rotateY(float angle)
+    {
+        shapeRenderer.rotate(0, 1, 0, angle*180/PI);
+    }
 
     public void rotateZ(float angle)
     {
@@ -594,7 +607,7 @@ public class PGraphics extends PImage
         perspective(fov, aspect, near, far);
     }
 
-    private void updateProjectionMatrices()
+    protected void updateProjectionMatrices()
     {
         shapeRenderer.setProjectionMatrix(camera.combined);
         batch.setProjectionMatrix(camera.combined);
@@ -644,7 +657,7 @@ public class PGraphics extends PImage
     // libgdx implementation 
 
     private FrameBuffer fb;
-    private Camera camera;
+    protected Camera camera;
     private ShapeRenderer shapeRenderer;
     private SpriteBatch batch;
 
