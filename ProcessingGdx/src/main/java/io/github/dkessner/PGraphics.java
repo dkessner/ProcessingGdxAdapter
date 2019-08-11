@@ -128,18 +128,10 @@ public class PGraphics extends PImage
             // - origin upper left
             // - (width, height, 0) lower right
 
-            camera.position.x = width/2;
-            camera.position.y = -height/2;
-            
             float fov = radians(((PerspectiveCamera)camera).fieldOfView);
-            camera.position.z = calculateProcessingCameraZ(fov, height);
-
-            camera.lookAt(camera.position.x, camera.position.y, 0);
-
-            camera.update();
-            updateProjectionMatrices();
-
+            float cameraZ = calculateProcessingCameraZ(fov, height);
             scale(1, -1, 1);
+            translate(-width/2, -height/2, -cameraZ);
         }
     }
 
@@ -536,28 +528,12 @@ public class PGraphics extends PImage
 
     public void resetMatrix()
     {
-        //shapeRenderer.setProjectionMatrix(camera.combined);
-
         shapeRenderer.identity();
-
 
         if (camera instanceof PerspectiveCamera)
         {
-            // set default Processing coordinate system:
-            // - y-axis down
-            // - origin upper left
-            // - (width, height, 0) lower right
-
-            camera.position.x = 0;
-            camera.position.y = 0;
-            camera.position.z = 0;
-            camera.lookAt(0, 0, 0);
-            camera.update();
-            updateProjectionMatrices();
-
             scale(1, -1, 1);
         }
-
     }
 
     public void translate(float x, float y, float z)
