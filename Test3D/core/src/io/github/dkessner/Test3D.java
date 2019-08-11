@@ -7,10 +7,7 @@
 
 package io.github.dkessner;
 
-
 import java.util.*;
-
-import com.badlogic.gdx.math.*;
 
 
 public class Test3D extends PApplet
@@ -25,6 +22,16 @@ public class Test3D extends PApplet
     public void setup()
     {
         initializePoints();
+
+        final float cameraZ = height/2.0f / tan(PI/6);
+        cameraPosition.z = cameraZ;
+
+        final float fov = PI/3;
+        final float aspect = (float)width / height;
+        final float near = cameraZ/100.0f;
+        final float far = cameraZ*10.0f;
+
+        perspective(fov, aspect, near, far);
     }
 
     private void initializePoints()
@@ -60,9 +67,12 @@ public class Test3D extends PApplet
     {
         background(0);
 
-        resetMatrix();
-
         updateCamera();
+
+        resetMatrix();
+        rotateX(cameraPitch);
+        rotateY(cameraYaw);
+        translate(-cameraPosition.x, -cameraPosition.y, -cameraPosition.z);
 
         // draw RGB ellipses
 
@@ -221,167 +231,118 @@ public class Test3D extends PApplet
         }
     }
 
+    final float cameraSpeed = 5.0f;
+    final float cameraAngularSpeed = radians(1.2f);
+
+    PVector cameraPosition = new PVector();
+    PVector cameraVelocity = new PVector();
+    float cameraYaw;
+    float cameraYawVelocity;
+    float cameraPitch;
+    float cameraPitchVelocity;
+
+    void cameraMoveX(float speed) {cameraVelocity.x = speed;}
+    void cameraMoveY(float speed) {cameraVelocity.y = speed;}
+    void cameraMoveZ(float speed) {cameraVelocity.z = speed;}
+    void cameraMoveYaw(float speed) {cameraYawVelocity = speed;}
+    void cameraMovePitch(float speed) {cameraPitchVelocity = speed;}
+
+    PMatrix3D getCameraMatrix() 
+    {
+        PMatrix3D transformation = new PMatrix3D();
+        transformation.rotateY(-cameraYaw);
+        transformation.rotateX(-cameraPitch);
+        return transformation;
+    }
+
+    void updateCamera()
+    {
+        PMatrix3D transformation = getCameraMatrix();
+        PVector step = transformation.mult(cameraVelocity, null);
+        cameraPosition.add(step); 
+
+        cameraYaw += cameraYawVelocity;
+        cameraPitch += cameraPitchVelocity;
+    }
+
+
     private boolean shift = false;
 
     @Override
     public void keyPressed()
     {
-        println("processing keyPressed key: " + (int)key + " keyCode: " + keyCode); 
-
-        final float speed = 5.0f;
-        final float angularSpeed = 1.2f; // degrees (libgdx)
-
         if (keyCode == SHIFT)
             shift = true;
         else if (keyCode == RIGHT)
         {
-            if (shift)
-                moveCameraSideways(speed);
-            else
-                cameraYawVelocity = -angularSpeed;
+            if (shift) 
+                cameraMoveX(cameraSpeed);
+            else 
+                cameraMoveYaw(cameraAngularSpeed);
         }
         else if (keyCode == LEFT)
         {
             if (shift)
-                moveCameraSideways(-speed);
+                cameraMoveX(-cameraSpeed);
             else
-                cameraYawVelocity = angularSpeed;
+                cameraMoveYaw(-cameraAngularSpeed);
         }
         else if (keyCode == UP)
         {
             if (shift)
-                moveCameraUpDown(speed);
+                cameraMoveY(-cameraSpeed);
             else
-                cameraPitchVelocity = angularSpeed;
+                cameraMovePitch(cameraAngularSpeed);
         }
         else if (keyCode == DOWN)
         {
             if (shift)
-                moveCameraUpDown(-speed);
+                cameraMoveY(cameraSpeed);
             else
-                cameraPitchVelocity = -angularSpeed;
+                cameraMovePitch(-cameraAngularSpeed);
         }
         else if (key == 'w')
-            moveCamera(speed);
+            cameraMoveZ(-cameraSpeed);
         else if (key == 's')
-            moveCamera(-speed);
+            cameraMoveZ(cameraSpeed);
         else if (key == 'a')
-            moveCameraSideways(-speed);
+            cameraMoveX(-cameraSpeed);
         else if (key == 'd')
-            moveCameraSideways(speed);
+            cameraMoveX(cameraSpeed);
         else if (key == 'o')
             ortho();
         else if (key == 'p')
             perspective();
     }
 
-    public void updateCamera()
-    {
-        // libgdx
-
-        if (!cameraVelocity.isZero() || cameraYawVelocity != 0 || cameraPitchVelocity != 0)
-        {
-            camera.translate(cameraVelocity);
-
-            camera.rotate(camera.up, cameraYawVelocity);
-
-            Vector3 pitchAxis = camera.direction.cpy();
-            pitchAxis.crs(camera.up);
-            camera.rotate(pitchAxis, cameraPitchVelocity);
-
-            camera.update();
-            updateProjectionMatrices();
-        }
-    }
-
-    public void moveCamera(float speed)
-    {
-        // libgdx
-        cameraVelocity.set(camera.direction);
-        cameraVelocity.scl(speed);
-    }
-
-    public void moveCameraSideways(float speed)
-    {
-        // libgdx
-        cameraVelocity.set(camera.direction);
-        cameraVelocity.crs(camera.up);
-        cameraVelocity.scl(speed);
-    }
-
-    public void moveCameraUpDown(float speed)
-    {
-        // libgdx
-        cameraVelocity.set(camera.up);
-        cameraVelocity.scl(speed);
-    }
-
-    @Override
-    public void keyTyped()
-    {
-        println("processing keyTyped key: " + (int)key + " keyCode: " + keyCode); 
-    }
-
     @Override
     public void keyReleased()
     {
-        println("processing keyReleased key: " + (int)key + " keyCode: " + keyCode); 
-
         if (keyCode == SHIFT)
             shift = false;
-        else if (keyCode == RIGHT)
-        {
-            if (shift) 
-                moveCameraSideways(0);
-            else
-                cameraYawVelocity = 0;
-        }
-        else if (keyCode == LEFT)
+        else if (keyCode == RIGHT || keyCode == LEFT)
         {
             if (shift)
-                moveCameraSideways(0);
+                cameraMoveX(0);
             else
-                cameraYawVelocity = 0;
+                cameraMoveYaw(0);
         }
-        else if (keyCode == UP)
+        else if (keyCode == UP || keyCode == DOWN)
         {
             if (shift)
-                moveCameraUpDown(0);
+                cameraMoveY(0);
             else
-                cameraPitchVelocity = 0;
+                cameraMovePitch(0);
         }
-        else if (keyCode == DOWN)
-        {
-            if (shift)
-                moveCameraUpDown(0);
-            else
-                cameraPitchVelocity = 0;
-        }
-        else if (key == 'w')
-            moveCamera(0);
-        else if (key == 's')
-            moveCamera(0);
-        else if (key == 'a')
-            moveCameraSideways(0);
-        else if (key == 'd')
-            moveCameraSideways(0);
-        else if (key == 'f')
-            fullScreen(P3D);
-        else if (key == 'r')
-            size(800, 600, P3D);
-
-        // TODO: weirdness with ortho/perspective switching after fullScreen/size switch on html 
+        else if (key == 'w' || key == 's')
+            cameraMoveZ(0);
+        else if (key == 'a' || key == 'd')
+            cameraMoveX(0);
     }
 
     ArrayList<PVector> points;
     ArrayList<PVector> points2;
     ArrayList<PVector> points3;
-
-    // use libgdx Camera for convenience
-
-    Vector3 cameraVelocity = new Vector3();
-    float cameraYawVelocity;
-    float cameraPitchVelocity;
 }
 
 

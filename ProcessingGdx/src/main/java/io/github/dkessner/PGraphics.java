@@ -580,14 +580,19 @@ public class PGraphics extends PImage
     {
         camera = new PerspectiveCamera(degrees(fov), aspect, 1);
 
+        // TODO: check Processing behavior -- likely these should be set in beforeDraw();
+        // resetMatrix() called from draw() should un-set
+
+        /*
         camera.position.x = width/2;
         camera.position.y = -height/2;
         camera.position.z = cameraZ(fov, height);
+        */
 
         camera.near = near;
         camera.far = far;
 
-        camera.lookAt(camera.position.x, camera.position.y, 0);
+        //camera.lookAt(camera.position.x, camera.position.y, 0);
 
         camera.update();
         updateProjectionMatrices();
@@ -621,7 +626,8 @@ public class PGraphics extends PImage
     public static float radians(float angleDegrees) {return angleDegrees*PI/180;}
 
     public static float sin(float value) {return (float)Math.sin(value);}
-    public static float cos(float value) {return (float)Math.sin(value);}
+    public static float cos(float value) {return (float)Math.cos(value);}
+    public static float tan(float value) {return (float)Math.tan(value);}
     public static float sqrt(float value) {return (float)Math.sqrt(value);}
 
     public static float lerp(float start, float stop, float amount)
