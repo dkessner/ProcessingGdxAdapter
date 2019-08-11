@@ -340,7 +340,7 @@ public class PGraphics extends PImage
     public void box(float w, float h, float d)
     {
         pushMatrix();
-        translate(-w/2, -h/2, -d/2);
+        translate(-w/2, -h/2, d/2); // libgdx box(): (x,y,z) == bottom left front
 
         if (currentFillColor != null)
         {
@@ -360,7 +360,6 @@ public class PGraphics extends PImage
 
         popMatrix();
 
-        // TODO: check this with 3D / perspective camera
         // TODO: refactor with ellipse()
     }
 
