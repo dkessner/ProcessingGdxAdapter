@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -93,6 +94,9 @@ public class PGraphics extends PImage
     {
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
+
+        final boolean flip = true; 
+        font = new BitmapFont(flip);
 
         initializeShapeTypeMap();
 
@@ -313,6 +317,15 @@ public class PGraphics extends PImage
     {
         this.colorMode = colorMode;
     }
+
+    public void text(String s, float x, float y)
+    {
+        batch.begin();
+        font.draw(batch, s, x, y);
+        batch.end();
+    }
+
+    // TODO: implement text() overloads
 
     public void ellipse(float x, float y, float width, float height)
     {
@@ -681,6 +694,8 @@ public class PGraphics extends PImage
     protected Camera camera;
     private ShapeRenderer shapeRenderer;
     private SpriteBatch batch;
+
+    private BitmapFont font;
 
     // color handling
 

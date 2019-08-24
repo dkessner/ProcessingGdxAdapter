@@ -8,9 +8,6 @@
 package io.github.dkessner;
 
 
-// TODO: default to ortho camera for P2D, perspective for P3D; implement perspective()
-
-
 public class DrawingTest extends PApplet
 {
     @Override
@@ -36,6 +33,8 @@ public class DrawingTest extends PApplet
         // draw the badlogic logo
 
         image(img, 300, 0, 100, 100);
+
+        text("Hello, world", 50, 50);
 
         // draw RGB ellipses
 
