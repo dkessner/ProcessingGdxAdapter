@@ -2,14 +2,16 @@
 
 This project is a re-implementation of the Processing API on top of libgdx.
 
-Proof of concept: [proof of concept](proof_of_concept)  
-
-ProcessingGdx implementation (Java library): [ProcessingGdx](ProcessingGdx)  
-Bounce program example using ProcessingGdx: [Bounce](Bounce)  
-DrawingTest program example using ProcessingGdx: [DrawingTest](DrawingTest)  
-
-[Project notes](project_notes.md)
-
-
 [Github pages](https://dkessner.github.io/ProcessingGdxAdapter/)
+
+Sub-projects:
+
+- [ProcessingGdx](ProcessingGdx): the main Java library implementation  
+- [DrawingTest](DrawingTest): 2D testing
+- [Test3D](Test3D): 3D testing
+
+
+Older sub-projects:
+- Bounce program example using ProcessingGdx: [Bounce](Bounce)  
+- Proof of concept: [proof of concept](proof_of_concept)  
 
