@@ -124,6 +124,7 @@ public class PGraphics extends PImage
     /*package-private*/ void beforeDraw()
     {
         shapeRenderer.identity();
+        batch.setTransformMatrix(new Matrix4());
 
         if (camera instanceof PerspectiveCamera)
         {
@@ -321,6 +322,7 @@ public class PGraphics extends PImage
     public void text(String s, float x, float y)
     {
         batch.begin();
+        font.setColor(currentFillColor);
         font.draw(batch, s, x, y);
         batch.end();
     }
@@ -524,8 +526,19 @@ public class PGraphics extends PImage
 
     // TODO: texture(u, v)
 
-    // Model-view matrix transformations: we're using the convenient libgdx
-    // ShapeRenderer transformations, but with our own Matrix4 stack.
+    // Model-view matrix transformations
+    // 
+    // We're using the convenient libgdx ShapeRenderer transformations, but
+    // with our own Matrix4 stack.
+    //
+    // Note: The Batch transform matrix must be kept in sync with the
+    // ShapeRenderer transform matrix.
+    //
+
+    private void syncBatchTransformMatrix()
+    {
+        batch.setTransformMatrix(shapeRenderer.getTransformMatrix());
+    }
 
     public void pushMatrix()
     {
@@ -535,6 +548,7 @@ public class PGraphics extends PImage
     public void popMatrix()
     {
         shapeRenderer.setTransformMatrix(matrixStack.pop());
+        syncBatchTransformMatrix();
     }
 
     private Stack<Matrix4> matrixStack = new Stack<Matrix4>();
@@ -542,6 +556,7 @@ public class PGraphics extends PImage
     public void resetMatrix()
     {
         shapeRenderer.identity();
+        syncBatchTransformMatrix();
 
         if (camera instanceof PerspectiveCamera)
         {
@@ -552,6 +567,7 @@ public class PGraphics extends PImage
     public void translate(float x, float y, float z)
     {
         shapeRenderer.translate(x, y, z);     
+        syncBatchTransformMatrix();
     }
 
     public void translate(float x, float y) {translate(x, y, 0);}
@@ -559,23 +575,27 @@ public class PGraphics extends PImage
     public void rotateX(float angle)
     {
         shapeRenderer.rotate(1, 0, 0, angle*180/PI);
+        syncBatchTransformMatrix();
     }
 
     public void rotateY(float angle)
     {
         shapeRenderer.rotate(0, 1, 0, angle*180/PI);
+        syncBatchTransformMatrix();
     }
 
     public void rotateZ(float angle)
     {
         shapeRenderer.rotate(0, 0, 1, angle*180/PI);
+        syncBatchTransformMatrix();
     }
 
     public void rotate(float angle) {rotateZ(angle);}
 
     public void scale(float x, float y, float z)
     {
-        shapeRenderer.scale(x, y, z);     
+        shapeRenderer.scale(x, y, z);
+        syncBatchTransformMatrix();
     }
 
     public void scale(float x, float y) {scale(x, y, 1);}

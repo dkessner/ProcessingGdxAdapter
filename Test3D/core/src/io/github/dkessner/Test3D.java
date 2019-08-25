@@ -91,6 +91,10 @@ public class Test3D extends PApplet
         noStroke();
         ellipse(300, 300, 100, 50);
 
+        colorMode(RGB, 255);
+        fill(255);
+        text("Hello, world!", 150, 150);
+
         pushMatrix();
         drawAxes();
         drawPoints();
