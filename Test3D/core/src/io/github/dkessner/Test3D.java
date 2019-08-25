@@ -317,6 +317,10 @@ public class Test3D extends PApplet
             ortho();
         else if (key == 'p')
             perspective();
+        else if (key == 'f')
+            fullScreen(P3D);
+        else if (key == 'F')
+            size(800, 600, P3D);
     }
 
     @Override

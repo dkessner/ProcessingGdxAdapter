@@ -627,20 +627,8 @@ public class PGraphics extends PImage
     {
         camera = new PerspectiveCamera(degrees(fov), aspect, 1);
 
-        // TODO: check Processing behavior -- likely these should be set in beforeDraw();
-        // resetMatrix() called from draw() should un-set
-
-
-        /*
-        camera.position.x = width/2;
-        camera.position.y = -height/2;
-        camera.position.z = cameraZ(fov, height);
-        */
-
         camera.near = near;
         camera.far = far;
-
-        //camera.lookAt(camera.position.x, camera.position.y, 0);
 
         camera.update();
         updateProjectionMatrices();
