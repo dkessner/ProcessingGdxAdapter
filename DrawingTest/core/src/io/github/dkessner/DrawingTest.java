@@ -23,6 +23,9 @@ public class DrawingTest extends PApplet
 
         pg = createGraphics(400, 400);
         drawOffscreen();
+
+        String[] fruits = {"apple", "banana", "cherry"};
+        //saveStrings("fruits.txt", fruits); // throws exception in html app
     }
 
     @Override
@@ -35,6 +38,10 @@ public class DrawingTest extends PApplet
         image(img, 300, 0, 100, 100);
 
         text("Hello, world", 50, 50);
+
+        String[] fruits = loadStrings("fruits.txt");
+        for (int i=0; i<3; i++)
+            text(fruits[i], 50, 150 + 25*i);
 
         // draw RGB ellipses
 

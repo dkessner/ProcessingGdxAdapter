@@ -8,8 +8,11 @@
 package io.github.dkessner;
 
 
-import java.util.HashMap;
+import java.io.*;
+import java.util.*;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Color;
@@ -188,6 +191,41 @@ public class PApplet extends PGraphics implements InputProcessor
     }
 
     public void fullScreen() {fullScreen(P2D);}
+
+    public void saveStrings(String filename, String[] strings)
+    {
+        FileHandle handle = Gdx.files.local(filename);
+        
+        handle.writeString("", false); // overwrite file: write empty string with append==false
+
+        for (String s : strings)
+            handle.writeString(s + '\n', true); // append==true
+    }
+
+    public String[] loadStrings(String filename)
+    {
+        try
+        {
+            FileHandle handle = Gdx.files.internal(filename);
+            BufferedReader reader = handle.reader(1024);
+
+            ArrayList<String> strings = new ArrayList<String>();
+
+            while (true)
+            {
+                String s = reader.readLine();
+                if (s == null) break;
+                strings.add(s);
+            }
+
+            return strings.toArray(new String[strings.size()]);
+        }
+        catch (IOException e)
+        {
+            println(e);
+            return null;
+        }
+    }
 
     // event handling
 
