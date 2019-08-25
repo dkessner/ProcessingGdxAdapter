@@ -67,6 +67,13 @@ public class Test3D extends PApplet
     {
         background(0);
 
+        fill(255);
+        int x = 25, y = 25, step = 25;
+        text("arrow keys: yaw/pitch", x, y);
+        text("shift + arrow keys: translate x/y", x, y+=step);
+        text("asdw: translate y/z", x, y+=step);
+        text("f: full screen (bug returning to window in web app)", x, y+=step);
+
         updateCamera();
 
         resetMatrix();
