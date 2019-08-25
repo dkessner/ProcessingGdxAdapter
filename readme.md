@@ -1,8 +1,7 @@
 # Processing Gdx Adapter
 
 This project is a re-implementation of the Processing API on top of libgdx.
-
-[Github pages](https://dkessner.github.io/ProcessingGdxAdapter/)
+[Documentation and demos here.](https://dkessner.github.io/ProcessingGdxAdapter/)
 
 Sub-projects:
 

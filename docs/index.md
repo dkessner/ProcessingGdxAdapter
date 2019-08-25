@@ -14,8 +14,9 @@ DrawingTest:  [demo](DrawingTest) [code](https://github.com/dkessner/ProcessingG
  
 Test3D: [demo](Test3D) [code](https://github.com/dkessner/ProcessingGdxAdapter/blob/master/Test3D/core/src/io/github/dkessner/Test3D.java)  
 
-[Project notes](project_notes.md)  
+[Project notes](project_notes)  
 
 [GitHub repo](https://github.com/dkessner/ProcessingGdxAdapter)  
+[Development notes](dev_notes)
 
 
